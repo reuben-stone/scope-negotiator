@@ -54,3 +54,37 @@ export type LockedScope = {
   proposal: ScopeProposal;
   lockedAt: string;
 };
+
+// Context flow substep types
+
+export type ContextStep =
+  | "product-idea"
+  | "existing-product"
+  | "change-request"
+  | "delivery"
+  | "constraints";
+
+export const CONTEXT_FLOWS: Record<WorkType, ContextStep[]> = {
+  product: ["product-idea", "delivery", "constraints"],
+  feature: ["existing-product", "change-request", "delivery", "constraints"],
+};
+
+export type ContextDraft = {
+  mode: WorkType | null;
+  existingProduct: string;
+  productIdea: string;
+  changeRequest: string;
+  team: string;
+  timeframe: string;
+  constraints: string;
+};
+
+export const EMPTY_CONTEXT_DRAFT: ContextDraft = {
+  mode: null,
+  existingProduct: "",
+  productIdea: "",
+  changeRequest: "",
+  team: "",
+  timeframe: "",
+  constraints: "",
+};

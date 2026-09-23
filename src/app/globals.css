@@ -14,10 +14,14 @@
   --color-accent: #d94f3d;
   --color-accent-hover: #c44535;
 
-  /* Subtle column fills — not colour-coded categories */
+  /* Subtle column fills */
   --color-ship-bg: #f0ebe3;
   --color-negotiate-bg: #f5f0e8;
   --color-cut-bg: #ede8e0;
+
+  /* Layout — single shared application canvas */
+  --canvas-max: 1680px;
+  --canvas-gutter: clamp(20px, 2.5vw, 40px);
 
   /* Spacing scale */
   --space-1: 4px;

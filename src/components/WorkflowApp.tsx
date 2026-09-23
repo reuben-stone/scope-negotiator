@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useCallback } from "react";
 import { WorkflowProvider, useWorkflow } from "@/state/context";
 import { WorkflowHeader } from "@/components/layout/WorkflowHeader";
 import { ContextScreen } from "@/components/context/ContextScreen";
@@ -11,10 +12,15 @@ import { Loading } from "@/components/states/Loading";
 import { ErrorState } from "@/components/states/ErrorState";
 
 function WorkflowRouter() {
-  const { state, reset } = useWorkflow();
+  const { state, reset, dispatch } = useWorkflow();
 
   if (state.error) {
-    return <ErrorState onRetry={reset} />;
+    return (
+      <ErrorState
+        message={state.error}
+        onRetry={() => dispatch({ type: "SET_ERROR", error: null })}
+      />
+    );
   }
 
   if (state.loading) {
@@ -52,12 +58,18 @@ export function WorkflowApp() {
 }
 
 function WorkflowInner() {
-  const { state } = useWorkflow();
+  const { state, reset } = useWorkflow();
+  const [resetKey, setResetKey] = useState(0);
+
+  const handleReset = useCallback(() => {
+    setResetKey((k) => k + 1);
+    reset();
+  }, [reset]);
 
   return (
     <>
-      <WorkflowHeader currentStage={state.stage} />
-      <main>
+      <WorkflowHeader currentStage={state.stage} onReset={handleReset} />
+      <main key={resetKey}>
         <WorkflowRouter />
       </main>
     </>
