@@ -2,11 +2,11 @@
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
-  padding: var(--space-2) var(--space-4);
+  padding: var(--space-2) var(--space-5);
   font-family: var(--font-display);
   font-size: var(--text-sm);
   font-weight: 700;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--color-ink);
   background: var(--color-bg);
@@ -14,8 +14,8 @@
   border-radius: var(--radius);
   cursor: pointer;
   position: relative;
-  box-shadow: 3px 3px 0 var(--color-ink);
-  transition: transform 0.08s, box-shadow 0.08s;
+  box-shadow: 4px 4px 0 var(--color-ink);
+  transition: transform 0.08s, box-shadow 0.08s, background 0.1s;
   white-space: nowrap;
 }
 
@@ -24,7 +24,7 @@
 }
 
 .button:active {
-  transform: translate(2px, 2px);
+  transform: translate(3px, 3px);
   box-shadow: 1px 1px 0 var(--color-ink);
 }
 
@@ -34,14 +34,14 @@
 }
 
 .button:disabled {
-  opacity: 0.5;
+  opacity: 0.4;
   cursor: not-allowed;
-  box-shadow: 2px 2px 0 var(--color-border);
+  box-shadow: 3px 3px 0 var(--color-border);
 }
 
 .button:disabled:active {
   transform: none;
-  box-shadow: 2px 2px 0 var(--color-border);
+  box-shadow: 3px 3px 0 var(--color-border);
 }
 
 .primary {
@@ -70,12 +70,12 @@
 }
 
 .small {
-  padding: var(--space-1) var(--space-2);
+  padding: var(--space-1) var(--space-3);
   font-size: var(--text-xs);
-  box-shadow: 2px 2px 0 var(--color-ink);
+  box-shadow: 3px 3px 0 var(--color-ink);
 }
 
 .small:active {
-  transform: translate(1px, 1px);
+  transform: translate(2px, 2px);
   box-shadow: 1px 1px 0 var(--color-ink);
 }

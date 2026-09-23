@@ -31,7 +31,7 @@ export function generateMarkdown(locked: LockedScope): string {
 
   const sections: string[] = [
     `# SCOPE LOCKED`,
-    `${context.teamSize} engineer${context.teamSize !== 1 ? "s" : ""} · ${context.timeframe} · ${shipped.length} ship · ${deferred.length} deferred`,
+    `${context.team} · ${context.timeframe} · ${shipped.length} ship · ${deferred.length} deferred`,
     `## GOAL\n\n${proposal.goal}`,
     formatItems(shipped, "AGREED SCOPE"),
     formatItems(

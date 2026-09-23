@@ -38,7 +38,8 @@
   background: white;
   color: var(--color-ink);
   width: 100%;
-  transition: border-color 0.1s;
+  margin-top: var(--space-1);
+  transition: border-color 0.1s, box-shadow 0.1s;
 }
 
 .input:focus {
@@ -49,6 +50,7 @@
 
 .input::placeholder {
   color: var(--color-muted);
+  opacity: 0.6;
 }
 
 .textarea {

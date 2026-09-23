@@ -2,7 +2,7 @@ import { useState } from "react";
 import type { WorkType, ScopeContext } from "@/types/domain";
 import { useWorkflow } from "@/state/context";
 import { Button } from "@/components/shared/Button";
-import { FieldGroup, TextInput, Textarea } from "@/components/shared/Input";
+import { TextInput, Textarea } from "@/components/shared/Input";
 import styles from "./ContextScreen.module.css";
 
 export function ContextScreen() {
@@ -11,14 +11,14 @@ export function ContextScreen() {
   const [workType, setWorkType] = useState<WorkType | null>(null);
   const [productContext, setProductContext] = useState("");
   const [brief, setBrief] = useState("");
-  const [teamSize, setTeamSize] = useState("");
+  const [team, setTeam] = useState("");
   const [timeframe, setTimeframe] = useState("");
   const [constraints, setConstraints] = useState("");
 
   const canSubmit =
     workType !== null &&
     brief.trim().length > 0 &&
-    teamSize.trim().length > 0 &&
+    team.trim().length > 0 &&
     timeframe.trim().length > 0;
 
   function handleSubmit(e: React.FormEvent) {
@@ -28,7 +28,7 @@ export function ContextScreen() {
     const ctx: ScopeContext = {
       workType,
       brief: brief.trim(),
-      teamSize: parseInt(teamSize, 10) || 1,
+      team: team.trim(),
       timeframe: timeframe.trim(),
       ...(workType === "feature" && productContext.trim()
         ? { productContext: productContext.trim() }
@@ -39,17 +39,41 @@ export function ContextScreen() {
     submitContext(ctx);
   }
 
+  const briefFieldIndex = workType === "feature" ? "02" : "01";
+  const deliveryIndex = workType === "feature" ? "03" : "02";
+  const timeframeIndex = workType === "feature" ? "04" : "03";
+  const constraintsIndex = workType === "feature" ? "05" : "04";
+
   return (
     <div className={styles.screen}>
-      <div className={styles.hero}>
-        <h1 className={styles.heroHeading}>Your scope isn&apos;t ready yet.</h1>
-        <p className={styles.heroSub}>
-          Scope Negotiator turns ambitious ideas and ambiguous requests into
-          credible, human-approved scope. AI proposes. You decide.
-        </p>
+      {/* Logotype */}
+      <div className={styles.logotype}>
+        <p className={styles.systemLabel}>Product Scoping System / 001</p>
+        <h1 className={styles.logoText}>
+          Scope<br />
+          Negotiator<span className={styles.logoReg}>&reg;</span>
+        </h1>
       </div>
 
+      {/* Hero */}
+      <div className={styles.hero}>
+        <p className={styles.heroHeading} role="doc-subtitle">
+          Your Scope<br />
+          Isn&apos;t Ready<br />
+          Yet.
+        </p>
+        <p className={styles.heroCopy}>
+          Scope Negotiator turns ambitious or ambiguous product ideas and feature
+          requests into credible, human-approved scope.
+        </p>
+        <p className={styles.heroPrinciple}>AI Proposes. You Decide.</p>
+      </div>
+
+      <hr className={styles.divider} />
+
+      {/* Work type */}
       <div className={styles.workTypeSection}>
+        <p className={styles.sectionMeta}>Mode</p>
         <p className={styles.workTypeLabel}>What are we scoping?</p>
         <div className={styles.workTypeOptions} role="radiogroup" aria-label="Work type">
           <button
@@ -59,7 +83,9 @@ export function ContextScreen() {
             className={`${styles.workTypeButton} ${workType === "product" ? styles.workTypeButtonActive : ""}`}
             onClick={() => setWorkType("product")}
           >
-            New Product
+            <span className={styles.workTypeIndex}>01</span>
+            <span className={styles.workTypeName}>New Product</span>
+            <span className={styles.workTypeHint}>Start from zero</span>
           </button>
           <button
             type="button"
@@ -68,42 +94,50 @@ export function ContextScreen() {
             className={`${styles.workTypeButton} ${workType === "feature" ? styles.workTypeButtonActive : ""}`}
             onClick={() => setWorkType("feature")}
           >
-            New Feature
+            <span className={styles.workTypeIndex}>02</span>
+            <span className={styles.workTypeName}>New Feature</span>
+            <span className={styles.workTypeHint}>Add to something real</span>
           </button>
         </div>
       </div>
 
+      {/* Form */}
       {workType && (
         <form className={styles.form} onSubmit={handleSubmit}>
           {workType === "feature" && (
-            <FieldGroup
-              label="Existing product context"
-              optional
-              htmlFor="productContext"
-              hint="Give Scope Negotiator enough context to understand what this change is being made to."
-            >
+            <div className={styles.formSection}>
+              <span className={styles.fieldMeta}>01 / Existing Product</span>
+              <label className={styles.fieldLabel} htmlFor="productContext">
+                Tell us what already exists.
+                <span className={styles.fieldOptional}> — Optional</span>
+              </label>
+              <p className={styles.fieldHint}>
+                Give Scope Negotiator enough context to understand what this
+                change is being made to.
+              </p>
               <Textarea
                 id="productContext"
                 value={productContext}
                 onChange={(e) => setProductContext(e.target.value)}
-                placeholder="Describe the existing product, its stack, users, and current state..."
+                placeholder="The product, its stack, users, and current state..."
               />
-            </FieldGroup>
+            </div>
           )}
 
-          <FieldGroup
-            label={
-              workType === "product"
+          <div className={styles.formSection}>
+            <span className={styles.fieldMeta}>
+              {briefFieldIndex} / Brief
+            </span>
+            <label className={styles.fieldLabel} htmlFor="brief">
+              {workType === "product"
                 ? "What are you building?"
-                : "What do you want to add or change?"
-            }
-            htmlFor="brief"
-            hint={
-              workType === "product"
-                ? "The idea, the problem, the intended users, the desired outcome."
-                : undefined
-            }
-          >
+                : "What do you want to add or change?"}
+            </label>
+            {workType === "product" && (
+              <p className={styles.fieldHint}>
+                The idea, the problem, the intended users, the desired outcome.
+              </p>
+            )}
             <Textarea
               id="brief"
               large
@@ -116,46 +150,72 @@ export function ContextScreen() {
               }
               required
             />
-          </FieldGroup>
-
-          <div className={styles.row}>
-            <FieldGroup label="Team size" htmlFor="teamSize">
-              <TextInput
-                id="teamSize"
-                type="number"
-                min={1}
-                value={teamSize}
-                onChange={(e) => setTeamSize(e.target.value)}
-                placeholder="2"
-                required
-              />
-            </FieldGroup>
-
-            <FieldGroup label="Timeframe" htmlFor="timeframe">
-              <TextInput
-                id="timeframe"
-                value={timeframe}
-                onChange={(e) => setTimeframe(e.target.value)}
-                placeholder="6 weeks"
-                required
-              />
-            </FieldGroup>
           </div>
 
-          <FieldGroup
-            label="Constraints"
-            optional
-            htmlFor="constraints"
-          >
+          <div className={styles.formSection}>
+            <span className={styles.fieldMeta}>
+              {deliveryIndex} / Team &amp; Capacity
+            </span>
+            <label className={styles.fieldLabel} htmlFor="team">
+              Who is available?
+            </label>
+            <p className={styles.fieldHint}>
+              Describe the team and their availability. Capability gaps are
+              something the analysis can surface.
+            </p>
+            <Textarea
+              id="team"
+              value={team}
+              onChange={(e) => setTeam(e.target.value)}
+              placeholder="2 full-stack engineers, full-time. Designer available 2 days/week."
+              required
+            />
+          </div>
+
+          <div className={styles.formSection}>
+            <span className={styles.fieldMeta}>
+              {timeframeIndex} / Timeframe
+            </span>
+            <label className={styles.fieldLabel} htmlFor="timeframe">
+              How long do you have?
+            </label>
+            <TextInput
+              id="timeframe"
+              value={timeframe}
+              onChange={(e) => setTimeframe(e.target.value)}
+              placeholder="6 weeks"
+              required
+            />
+          </div>
+
+          <div className={styles.formSection}>
+            <span className={styles.fieldMeta}>
+              {constraintsIndex} / Constraints
+            </span>
+            <label className={styles.fieldLabel} htmlFor="constraints">
+              Hard Boundaries
+              <span className={styles.fieldOptional}> — Optional</span>
+            </label>
+            <p className={styles.fieldHint}>
+              What cannot move? Deadlines, technical limits, compliance
+              requirements, non-negotiable dependencies.
+            </p>
             <Textarea
               id="constraints"
               value={constraints}
               onChange={(e) => setConstraints(e.target.value)}
-              placeholder="Budget limits, technical constraints, compliance requirements..."
+              placeholder="Must ship before customer launch. No new infrastructure. Must use existing auth system."
             />
-          </FieldGroup>
+          </div>
 
-          <div className={styles.actions}>
+          <div className={styles.statusBar}>
+            <span
+              className={`${styles.statusText} ${canSubmit ? styles.statusReady : ""}`}
+            >
+              {canSubmit
+                ? "Ready to negotiate"
+                : "Waiting for input"}
+            </span>
             <Button type="submit" variant="primary" disabled={!canSubmit}>
               Negotiate Scope →
             </Button>

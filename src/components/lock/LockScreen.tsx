@@ -36,7 +36,7 @@ export function LockScreen() {
       <h2 className={styles.heading}>Scope Locked</h2>
       <div className={styles.meta}>
         <span className={styles.metaBadge}>
-          {context.teamSize} Engineer{context.teamSize !== 1 ? "s" : ""}
+          {context.team}
         </span>
         <span className={styles.metaBadge}>{context.timeframe}</span>
         <span className={styles.metaBadge}>{shipped.length} Ship</span>

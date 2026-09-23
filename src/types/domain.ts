@@ -4,7 +4,7 @@ export type ScopeContext = {
   workType: WorkType;
   productContext?: string;
   brief: string;
-  teamSize: number;
+  team: string;
   timeframe: string;
   constraints?: string;
 };
