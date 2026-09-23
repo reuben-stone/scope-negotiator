@@ -8,8 +8,15 @@ export function workflowReducer(
     case "SET_LOADING":
       return { ...state, loading: action.loading, error: null };
 
-    case "SET_ERROR":
-      return { ...state, error: action.error, loading: false };
+    case "SET_ERROR": {
+      // Revert to last actionable stage on error
+      let stage = state.stage;
+      if (action.error) {
+        if (stage === "understand" && !state.analysis) stage = "context";
+        if (stage === "negotiate" && !state.proposal) stage = "clarify";
+      }
+      return { ...state, error: action.error, loading: false, stage };
+    }
 
     case "SUBMIT_CONTEXT":
       return {

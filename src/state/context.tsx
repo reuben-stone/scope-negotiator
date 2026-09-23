@@ -9,7 +9,6 @@ import type { WorkflowState, WorkflowAction } from "@/types/workflow";
 import type { ScopeContext, ScopeClassification } from "@/types/domain";
 import { initialWorkflowState } from "@/types/workflow";
 import { workflowReducer } from "./reducer";
-import { analyzeScope, generateProposal } from "@/mock/service";
 
 type WorkflowContextValue = {
   state: WorkflowState;
@@ -26,23 +25,66 @@ const WorkflowContext = createContext<WorkflowContextValue | null>(null);
 export function WorkflowProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(workflowReducer, initialWorkflowState);
 
-  const submitContext = useCallback((ctx: ScopeContext) => {
+  const submitContext = useCallback(async (ctx: ScopeContext) => {
     dispatch({ type: "SUBMIT_CONTEXT", context: ctx });
 
-    setTimeout(() => {
-      const analysis = analyzeScope(ctx);
+    try {
+      const res = await fetch("/api/analyze", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(ctx),
+      });
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => null);
+        throw new Error(data?.error || `Analysis failed (${res.status})`);
+      }
+
+      const analysis = await res.json();
       dispatch({ type: "SET_ANALYSIS", analysis });
-    }, 1500);
+    } catch (err) {
+      // Revert to context stage so retry doesn't dead-end at understand
+      dispatch({
+        type: "SET_ERROR",
+        error:
+          err instanceof Error
+            ? err.message
+            : "Analysis failed. Please try again.",
+      });
+    }
   }, []);
 
-  const submitAnswersAndNegotiate = useCallback(() => {
+  const submitAnswersAndNegotiate = useCallback(async () => {
     dispatch({ type: "SET_LOADING", loading: true });
 
-    setTimeout(() => {
-      if (!state.scopeContext || !state.analysis) return;
-      const proposal = generateProposal(state.scopeContext, state.analysis);
+    try {
+      const res = await fetch("/api/propose", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          context: state.scopeContext,
+          analysis: state.analysis,
+        }),
+      });
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => null);
+        throw new Error(
+          data?.error || `Proposal generation failed (${res.status})`
+        );
+      }
+
+      const proposal = await res.json();
       dispatch({ type: "SET_PROPOSAL", proposal });
-    }, 1500);
+    } catch (err) {
+      dispatch({
+        type: "SET_ERROR",
+        error:
+          err instanceof Error
+            ? err.message
+            : "Proposal generation failed. Please try again.",
+      });
+    }
   }, [state.scopeContext, state.analysis]);
 
   const moveScopeItem = useCallback(
