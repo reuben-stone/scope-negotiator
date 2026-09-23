@@ -1,0 +1,56 @@
+export type WorkType = "product" | "feature";
+
+export type ScopeContext = {
+  workType: WorkType;
+  productContext?: string;
+  brief: string;
+  teamSize: number;
+  timeframe: string;
+  constraints?: string;
+};
+
+export type InsightCategory = "known" | "assumed" | "unknown" | "risk";
+
+export type Insight = {
+  id: string;
+  category: InsightCategory;
+  statement: string;
+};
+
+export type ClarifyingQuestion = {
+  id: string;
+  question: string;
+  whyItMatters: string;
+  answer?: string;
+};
+
+export type ScopeClassification = "ship" | "negotiate" | "cut";
+
+export type ScopeItem = {
+  id: string;
+  title: string;
+  description?: string;
+  reasoning: string;
+  effort: "low" | "medium" | "high";
+  risk: "low" | "medium" | "high";
+  recommendedClassification: ScopeClassification;
+  currentClassification: ScopeClassification;
+  userOverride: boolean;
+};
+
+export type ScopeAnalysis = {
+  insights: Insight[];
+  questions: ClarifyingQuestion[];
+};
+
+export type ScopeProposal = {
+  goal: string;
+  items: ScopeItem[];
+  successCriteria: string[];
+};
+
+export type LockedScope = {
+  context: ScopeContext;
+  proposal: ScopeProposal;
+  lockedAt: string;
+};
