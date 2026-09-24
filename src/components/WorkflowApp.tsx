@@ -31,22 +31,34 @@ function WorkflowRouter() {
     return <Loading message={messages[state.stage] ?? "Negotiating..."} />;
   }
 
+  let content: React.ReactNode;
   switch (state.stage) {
     case "context":
-      return <ContextScreen />;
+      content = <ContextScreen />;
+      break;
     case "understand":
       if (!state.analysis) return <Loading message="Analysing your brief..." />;
-      return <UnderstandScreen />;
+      content = <UnderstandScreen />;
+      break;
     case "clarify":
-      return <ClarifyScreen />;
+      content = <ClarifyScreen />;
+      break;
     case "negotiate":
       if (!state.proposal) return <Loading message="Renegotiating scope..." />;
-      return <NegotiateScreen />;
+      content = <NegotiateScreen />;
+      break;
     case "lock":
-      return <LockScreen />;
+      content = <LockScreen />;
+      break;
     default:
-      return <ContextScreen />;
+      content = <ContextScreen />;
   }
+
+  return (
+    <div key={state.stage} className="stageTransition">
+      {content}
+    </div>
+  );
 }
 
 export function WorkflowApp() {

@@ -45,6 +45,11 @@
 
   /* Shape */
   --radius: 4px;
+
+  /* Motion */
+  --motion-fast: 100ms;
+  --motion-standard: 180ms;
+  --motion-ease: cubic-bezier(0.25, 0.1, 0.25, 1);
 }
 
 /* Reset */
@@ -86,6 +91,22 @@ body {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* State-change transition — shared across step and stage transitions */
+@keyframes contentEnter {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.stageTransition {
+  animation: contentEnter var(--motion-standard) var(--motion-ease) both;
 }
 
 /* Selection */

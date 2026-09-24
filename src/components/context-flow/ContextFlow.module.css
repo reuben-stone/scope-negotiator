@@ -54,11 +54,25 @@
   color: var(--color-muted);
 }
 
+/* ── Step transition ── */
+
+@keyframes stepEnter {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* ── Two-column workspace grid ──
    Both columns share the same top line.
    Eyebrow (left) and primary input (right) start at identical Y. */
 
 .workspaceGrid {
+  animation: stepEnter var(--motion-standard) var(--motion-ease) both;
   flex: 1;
   display: grid;
   grid-template-columns: minmax(280px, 0.4fr) minmax(360px, 0.6fr);
