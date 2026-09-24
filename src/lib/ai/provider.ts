@@ -26,7 +26,7 @@ export async function callModel<T>(
   const jsonSchema = toJSONSchema(params.schema);
 
   const response = await client.messages.create({
-    model: "claude-sonnet-4-20250514",
+    model: process.env.ANTHROPIC_MODEL || "claude-sonnet-4-5-20250929",
     max_tokens: 4096,
     system: params.system,
     tools: [

@@ -56,6 +56,10 @@ Propose a scope breakdown with:
 - Each item needs: title, description (optional), reasoning for classification, effort (low/medium/high), risk (low/medium/high)
 - Success criteria for the agreed scope
 
+Scope items must represent product capabilities, features, deliverables or deliberately deferred work. Do not return planning activities such as defining requirements, clarifying capacity, establishing timelines or documenting constraints as scope items. Those inputs inform the recommendation; they are not themselves things to ship.
+
+Use ship, negotiate and cut to express genuine trade-offs against the supplied team, timeframe and constraints. Do not force every category to contain items. Do not classify an item as ship merely because it is useful — ship means it credibly belongs in the proposed delivery scope given the available team and time.
+
 These are proposals only. The user will override classifications as they see fit.`;
 }
 

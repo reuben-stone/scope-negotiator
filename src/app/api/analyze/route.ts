@@ -63,11 +63,25 @@ export async function POST(request: Request) {
       );
     }
 
+    if (message.includes("401") || message.includes("authentication")) {
+      return NextResponse.json(
+        { error: "Invalid API key. Check ANTHROPIC_API_KEY in .env.local." },
+        { status: 401 }
+      );
+    }
+
+    if (message.includes("not_found") || message.includes("404")) {
+      return NextResponse.json(
+        { error: "Model not available. Check provider configuration." },
+        { status: 502 }
+      );
+    }
+
     const isTimeout =
       message.includes("timeout") || message.includes("ETIMEDOUT");
 
     return NextResponse.json(
-      { error: "Analysis failed. Please try again." },
+      { error: isTimeout ? "Request timed out. Please try again." : "Analysis failed. Please try again." },
       { status: isTimeout ? 504 : 502 }
     );
   }
