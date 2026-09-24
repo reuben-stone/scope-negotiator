@@ -11,6 +11,10 @@
   <code>CONTEXT</code> &rarr; <code>UNDERSTAND</code> &rarr; <code>CLARIFY</code> &rarr; <code>NEGOTIATE</code> &rarr; <code>LOCK</code>
 </p>
 
+<p align="center">
+  <a href="https://scope-negotiator-ten.vercel.app/"><strong>Live Demo</strong></a>
+</p>
+
 ---
 
 ![Scope Negotiator](public/screenshot.png)
