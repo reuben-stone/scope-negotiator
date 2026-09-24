@@ -48,7 +48,7 @@ function formatDate(date: Date): string {
 
 export default async function ScopesPage() {
   const session = await auth();
-  const workspaceId = (session as { workspaceId?: string })?.workspaceId;
+  const workspaceId = session?.workspaceId;
 
   let scopeList: ScopeListItem[] = [];
 

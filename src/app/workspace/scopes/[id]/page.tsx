@@ -14,7 +14,7 @@ export default async function ScopeDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const session = await auth();
-  const workspaceId = (session as { workspaceId?: string })?.workspaceId;
+  const workspaceId = session?.workspaceId;
 
   if (!session?.user?.id || !workspaceId) {
     notFound();

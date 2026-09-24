@@ -3,8 +3,25 @@ import { MemoryProposalResponseSchema } from "@/lib/ai/schemas";
 import { callModel } from "@/lib/ai/provider";
 import { memorySystemPrompt, memoryUserPrompt } from "@/lib/ai/prompts";
 import { PersistedScopeSchema } from "@/lib/db/persisted-scope";
+import { auth } from "@/lib/auth";
+import { rateLimit, getClientIp } from "@/lib/rate-limit";
 
 export async function POST(request: Request) {
+  const { limited } = rateLimit(getClientIp(request));
+  if (limited) {
+    return NextResponse.json(
+      { error: "You're making requests too quickly. Please wait a moment and try again." },
+      { status: 429 }
+    );
+  }
+
+  const session = await auth();
+  const workspaceId = session?.workspaceId;
+
+  if (!session?.user?.id || !workspaceId) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   let body: unknown;
   try {
     body = await request.json();

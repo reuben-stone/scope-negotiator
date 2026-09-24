@@ -241,7 +241,7 @@ export function ContextFlow({ mode, onChangeType }: Props) {
       </div>
 
       {/* Two-column workspace */}
-      <div key={stepIndex} className={styles.workspaceGrid}>
+      <div key={stepIndex} className={`${styles.workspaceGrid} stageTransition`}>
         <div className={styles.promptColumn}>
           <p className={styles.eyebrow}>{eyebrow}</p>
           <h2

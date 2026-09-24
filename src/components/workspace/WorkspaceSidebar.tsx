@@ -36,7 +36,7 @@ export function WorkspaceSidebar() {
       {/* ── Desktop: full sidebar (unchanged) ── */}
       <div className={styles.desktopSidebar}>
         <div className={styles.header}>
-          <Link href="/" className={styles.brand} aria-label="Scope Negotiator — back to start">
+          <Link href="/" className={styles.brand} aria-label="Scope Negotiator - back to start">
             <img
               src="/scope-negotiator-mark.png"
               alt=""
@@ -87,7 +87,7 @@ export function WorkspaceSidebar() {
       <div className={styles.mobileMasthead}>
         <div className={styles.mastheadBar}>
           <div className={styles.mastheadLeft}>
-            <Link href="/" className={styles.brand} aria-label="Scope Negotiator — back to start">
+            <Link href="/" className={styles.brand} aria-label="Scope Negotiator - back to start">
               <img
                 src="/scope-negotiator-mark.png"
                 alt=""

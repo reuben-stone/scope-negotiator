@@ -22,7 +22,7 @@ export function ClarifyScreen() {
         </button>
       </div>
 
-      <div className={styles.content}>
+      <div className={`${styles.content} stageTransition`}>
         <h2 className={styles.heading}>
           {questions.length} question{questions.length !== 1 ? "s" : ""} could
           change what ships.

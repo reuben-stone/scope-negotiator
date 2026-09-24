@@ -18,7 +18,7 @@ export async function PUT(
   { params }: { params: Promise<{ id: string }> }
 ) {
   const session = await auth();
-  const workspaceId = (session as { workspaceId?: string })?.workspaceId;
+  const workspaceId = session?.workspaceId;
 
   if (!session?.user?.id || !workspaceId) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -64,7 +64,7 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   const session = await auth();
-  const workspaceId = (session as { workspaceId?: string })?.workspaceId;
+  const workspaceId = session?.workspaceId;
 
   if (!session?.user?.id || !workspaceId) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });

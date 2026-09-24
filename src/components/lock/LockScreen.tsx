@@ -5,22 +5,9 @@ import { useWorkflow } from "@/state/context";
 import { useAuth } from "@/state/auth";
 import { useWorkspaceData } from "@/state/workspace-data";
 import { generateMarkdown } from "@/utils/markdown";
+import { filterCriteria } from "@/utils/filter-criteria";
 import { Button } from "@/components/shared/Button";
 import styles from "./LockScreen.module.css";
-
-function filterCriteria(
-  criteria: string[],
-  shipped: ScopeItem[],
-  notShipped: ScopeItem[]
-): string[] {
-  const notShippedTitles = notShipped.map((i) => i.title.toLowerCase());
-  return criteria.filter((criterion) => {
-    const lower = criterion.toLowerCase();
-    return !notShippedTitles.some(
-      (title) => title.length > 4 && lower.includes(title)
-    );
-  });
-}
 
 type ProposedMemory = {
   content: string;
@@ -168,7 +155,7 @@ export function LockScreen() {
         </button>
       </div>
 
-      <div className={styles.content}>
+      <div className={`${styles.content} stageTransition`}>
         <h2 className={styles.heading}>Scope Locked</h2>
         <div className={styles.meta}>
           <span className={styles.metaBadge}>{shipped.length} Ship</span>

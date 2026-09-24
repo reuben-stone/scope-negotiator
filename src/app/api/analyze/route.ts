@@ -2,9 +2,18 @@ import { NextResponse } from "next/server";
 import { AnalyzeRequestSchema, AnalysisResponseSchema } from "@/lib/ai/schemas";
 import { callModel } from "@/lib/ai/provider";
 import { analyzeSystemPrompt, analyzeUserPrompt } from "@/lib/ai/prompts";
+import { rateLimit, getClientIp } from "@/lib/rate-limit";
 import type { ScopeAnalysis } from "@/types/domain";
 
 export async function POST(request: Request) {
+  const { limited } = rateLimit(getClientIp(request));
+  if (limited) {
+    return NextResponse.json(
+      { error: "You're making requests too quickly. Please wait a moment and try again." },
+      { status: 429 }
+    );
+  }
+
   let body: unknown;
   try {
     body = await request.json();

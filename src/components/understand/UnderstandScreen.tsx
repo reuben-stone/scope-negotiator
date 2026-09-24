@@ -35,7 +35,7 @@ export function UnderstandScreen() {
         </button>
       </div>
 
-      <div className={styles.content}>
+      <div className={`${styles.content} stageTransition`}>
         <h2 className={styles.heading}>
           {insights.length} observations. Read them.
         </h2>

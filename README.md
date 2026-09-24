@@ -12,7 +12,7 @@
 </p>
 
 <p align="center">
-  <a href="https://scope-negotiator-ten.vercel.app/" target="_blank" rel="noopener noreferrer">
+  <a href="https://www.scopenegotiator.com/" target="_blank" rel="noopener noreferrer">
     <img src="public/demo-button.png" alt="Open Live Demo" width="320" />
   </a>
 </p>
@@ -33,15 +33,15 @@ Scope Negotiator takes a different position: uncertainty should remain visible. 
 
 ## How it works
 
-**Context** &mdash; Collect the product or feature brief, team capacity, timeframe and hard constraints. Mode-specific flows for new products vs. features on existing products.
+**Context** - Collect the product or feature brief, team capacity, timeframe and hard constraints. Mode-specific flows for new products vs. features on existing products.
 
-**Understand** &mdash; The model categorises observations as Known, Assumed, Unknown or High Risk. No invented certainty. If something is genuinely unknown, it stays unknown.
+**Understand** - The model categorises observations as Known, Assumed, Unknown or High Risk. No invented certainty. If something is genuinely unknown, it stays unknown.
 
-**Clarify** &mdash; Up to three clarification questions, only where the answer could materially change scope. Zero questions is a valid result. Answers are treated as authoritative input to the next stage. Users can skip questions entirely; unanswered questions remain unresolved rather than being silently filled.
+**Clarify** - Up to three clarification questions, only where the answer could materially change scope. Zero questions is a valid result. Answers are treated as authoritative input to the next stage. Users can skip questions entirely; unanswered questions remain unresolved rather than being silently filled.
 
-**Negotiate** &mdash; Scope items are proposed with Ship / Negotiate / Cut classifications, each with effort, risk and reasoning. Items must represent genuine deliverables, not planning activities. These are recommendations. The user moves items between columns freely. Overrides are tracked.
+**Negotiate** - Scope items are proposed with Ship / Negotiate / Cut classifications, each with effort, risk and reasoning. Items must represent genuine deliverables, not planning activities. These are recommendations. The user moves items between columns freely. Overrides are tracked.
 
-**Lock** &mdash; Two-column final document: the human-approved scope with audit trail on the left, context summary on the right. Success criteria are filtered against the final ship scope so deferred capabilities do not appear as requirements. Users can return to Negotiate, change classifications, and re-lock. Exportable as Markdown.
+**Lock** - Two-column final document: the human-approved scope with audit trail on the left, context summary on the right. Success criteria are filtered against the final ship scope so deferred capabilities do not appear as requirements. Users can return to Negotiate, change classifications, and re-lock. Exportable as Markdown.
 
 ## Engineering approach
 
@@ -83,8 +83,8 @@ Application state (React reducer)
 
 Two API routes handle model interaction:
 
-- `/api/analyze` &mdash; receives `ScopeContext`, returns validated `ScopeAnalysis`
-- `/api/propose` &mdash; receives `ScopeContext` + `ScopeAnalysis` (with human answers), returns validated `ScopeProposal`
+- `/api/analyze` - receives `ScopeContext`, returns validated `ScopeAnalysis`
+- `/api/propose` - receives `ScopeContext` + `ScopeAnalysis` (with human answers), returns validated `ScopeProposal`
 
 Both routes validate incoming request bodies before calling the provider and validate model responses before returning them to the client.
 
@@ -115,6 +115,7 @@ The provider adapter (`src/lib/ai/provider.ts`) uses Anthropic's tool use with f
 - Success criteria are filtered against the final ship scope at lock time
 - Lock-then-edit-then-re-lock recomputes everything from current state
 - Missing API key returns a clear 503 before reaching the provider
+- AI endpoints are rate-limited per IP (10 requests/minute) with clear 429 messaging
 
 ## Design
 
@@ -132,14 +133,14 @@ Motion is minimal and purposeful. Transitions confirm state changes rather than 
 
 ## Tech stack
 
-- **Next.js 16** &mdash; App Router, API routes for server-side model calls
-- **React 19** &mdash; `useReducer` + Context for workflow state, no state library
-- **TypeScript** &mdash; strict mode
-- **Zod 4** &mdash; request validation, response schema validation, JSON Schema generation
-- **Anthropic SDK** &mdash; Claude via forced tool use for structured output (model configurable via env var)
-- **Auth.js v5** &mdash; Credentials provider, JWT sessions, middleware-protected routes
-- **Drizzle ORM + Turso** &mdash; hosted SQLite for user and workspace persistence
-- **CSS Modules** &mdash; no UI library, no Tailwind
+- **Next.js 16** - App Router, API routes for server-side model calls
+- **React 19** - `useReducer` + Context for workflow state, no state library
+- **TypeScript** - strict mode
+- **Zod 4** - request validation, response schema validation, JSON Schema generation
+- **Anthropic SDK** - Claude via forced tool use for structured output (model configurable via env var)
+- **Auth.js v5** - Credentials provider, JWT sessions, middleware-protected routes
+- **Drizzle ORM + Turso** - hosted SQLite for user and workspace persistence
+- **CSS Modules** - no UI library, no Tailwind
 
 ## Running locally
 
@@ -201,26 +202,26 @@ AI may propose durable memories after a scope is locked, but only explicit human
 **Fully functional:**
 
 - Complete five-stage scoping workflow (Context &rarr; Understand &rarr; Clarify &rarr; Negotiate &rarr; Lock)
-- URL routing with route guards (`/scope/new/context` through `/scope/new/lock`)
+- Reducer-driven stage transitions (single page, no URL routing within flow)
 - AI analysis and proposal via server-side Anthropic API calls
 - User registration, authentication and workspace creation
-- Scope persistence &mdash; auto-save on lock, upsert on re-lock
-- Product Context &mdash; saved products selectable when scoping new features
-- Team Context &mdash; saved team/capacity selectable during delivery step
-- Memory &mdash; AI proposes, human approves, persists across sessions
+- Scope persistence - auto-save on lock, upsert on re-lock
+- Product Context - saved products selectable when scoping new features
+- Team Context - saved team/capacity selectable during delivery step
+- Memory - AI proposes, human approves, persists across sessions
 - Markdown export of locked scope documents
 - Back navigation and re-lock flow
 - Responsive mobile layout with compact workspace navigation
 
 **Not yet built:**
 
-- Integrations &mdash; no Jira, Linear, Notion or similar
-- Vector search / RAG &mdash; the model works from the supplied brief alone
-- Multi-agent orchestration &mdash; single model, three calls (analyze, propose, memory)
-- Streaming &mdash; responses are short enough that streaming adds complexity without UX benefit
-- Model selection UI &mdash; one model, server-configured
-- Scope history &mdash; compare how scope evolved across iterations
-- Feedback loop &mdash; compare scoped effort vs. actual
+- Integrations - no Jira, Linear, Notion or similar
+- Vector search / RAG - the model works from the supplied brief alone
+- Multi-agent orchestration - single model, three calls (analyze, propose, memory)
+- Streaming - responses are short enough that streaming adds complexity without UX benefit
+- Model selection UI - one model, server-configured
+- Scope history - compare how scope evolved across iterations
+- Feedback loop - compare scoped effort vs. actual
 
 ## Product principles
 

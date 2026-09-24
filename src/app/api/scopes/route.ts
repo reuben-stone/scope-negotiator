@@ -19,7 +19,7 @@ const SaveScopeRequestSchema = z.object({
 
 export async function POST(request: Request) {
   const session = await auth();
-  const workspaceId = (session as { workspaceId?: string })?.workspaceId;
+  const workspaceId = session?.workspaceId;
 
   if (!session?.user?.id || !workspaceId) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -91,7 +91,7 @@ export async function POST(request: Request) {
 
 export async function GET() {
   const session = await auth();
-  const workspaceId = (session as { workspaceId?: string })?.workspaceId;
+  const workspaceId = session?.workspaceId;
 
   if (!session?.user?.id || !workspaceId) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });

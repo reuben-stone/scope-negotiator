@@ -3,24 +3,10 @@
 import { useState, useCallback, useMemo, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import type { PersistedScope } from "@/lib/db/persisted-scope";
-import type { ScopeItem } from "@/types/domain";
 import { generateMarkdown } from "@/utils/markdown";
+import { filterCriteria } from "@/utils/filter-criteria";
 import { Button } from "@/components/shared/Button";
 import styles from "./SavedScopeView.module.css";
-
-function filterCriteria(
-  criteria: string[],
-  shipped: ScopeItem[],
-  notShipped: ScopeItem[]
-): string[] {
-  const notShippedTitles = notShipped.map((i) => i.title.toLowerCase());
-  return criteria.filter((criterion) => {
-    const lower = criterion.toLowerCase();
-    return !notShippedTitles.some(
-      (title) => title.length > 4 && lower.includes(title)
-    );
-  });
-}
 
 type Props = {
   id: string;

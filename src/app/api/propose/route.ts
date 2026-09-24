@@ -2,9 +2,18 @@ import { NextResponse } from "next/server";
 import { ProposeRequestSchema, ProposalResponseSchema } from "@/lib/ai/schemas";
 import { callModel } from "@/lib/ai/provider";
 import { proposeSystemPrompt, proposeUserPrompt } from "@/lib/ai/prompts";
+import { rateLimit, getClientIp } from "@/lib/rate-limit";
 import type { ScopeProposal } from "@/types/domain";
 
 export async function POST(request: Request) {
+  const { limited } = rateLimit(getClientIp(request));
+  if (limited) {
+    return NextResponse.json(
+      { error: "You're making requests too quickly. Please wait a moment and try again." },
+      { status: 429 }
+    );
+  }
+
   let body: unknown;
   try {
     body = await request.json();
@@ -66,11 +75,25 @@ export async function POST(request: Request) {
       );
     }
 
+    if (message.includes("401") || message.includes("authentication")) {
+      return NextResponse.json(
+        { error: "Invalid API key. Check ANTHROPIC_API_KEY in .env.local." },
+        { status: 401 }
+      );
+    }
+
+    if (message.includes("not_found") || message.includes("404")) {
+      return NextResponse.json(
+        { error: "Model not available. Check provider configuration." },
+        { status: 502 }
+      );
+    }
+
     const isTimeout =
       message.includes("timeout") || message.includes("ETIMEDOUT");
 
     return NextResponse.json(
-      { error: "Proposal generation failed. Please try again." },
+      { error: isTimeout ? "Request timed out. Please try again." : "Proposal generation failed. Please try again." },
       { status: isTimeout ? 504 : 502 }
     );
   }

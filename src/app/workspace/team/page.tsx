@@ -7,7 +7,7 @@ export default function TeamPage() {
     <WorkspaceContextList
       type="team"
       heading="Team"
-      description="Default team capacity and delivery constraints. When starting a new scope, saved team context is available as a starting point — editable per-scope."
+      description="Default team capacity and delivery constraints. When starting a new scope, saved team context is available as a starting point - editable per-scope."
       emptyText="No team defaults configured"
       addLabel="+ Add Team →"
       titleLabel="Team Name"

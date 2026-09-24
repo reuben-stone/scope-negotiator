@@ -26,7 +26,7 @@ export function WorkflowHeader({ currentStage, onReset }: Props) {
           type="button"
           className={styles.brand}
           onClick={onReset}
-          aria-label="Scope Negotiator — back to start"
+          aria-label="Scope Negotiator - back to start"
         >
           <img
             src="/scope-negotiator-mark.png"
@@ -65,7 +65,7 @@ export function WorkflowHeader({ currentStage, onReset }: Props) {
             type="button"
             className={styles.brand}
             onClick={onReset}
-            aria-label="Scope Negotiator — back to start"
+            aria-label="Scope Negotiator - back to start"
           >
             <img
               src="/scope-negotiator-mark.png"

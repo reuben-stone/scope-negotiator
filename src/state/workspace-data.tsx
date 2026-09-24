@@ -40,7 +40,7 @@ export function WorkspaceDataProvider({ children }: { children: ReactNode }) {
   }>({ products: [], teams: [], memories: [] });
 
   const fetchAll = useCallback(() => {
-    Promise.all([
+    return Promise.all([
       fetch("/api/workspace-context?type=product_context")
         .then((r) => (r.ok ? r.json() : []))
         .catch(() => []) as Promise<SavedContext[]>,

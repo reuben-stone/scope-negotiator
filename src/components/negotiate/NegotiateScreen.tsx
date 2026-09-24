@@ -90,7 +90,7 @@ export function NegotiateScreen() {
         </button>
       </div>
 
-      <div className={styles.content}>
+      <div className={`${styles.content} stageTransition`}>
         <h2 className={styles.heading}>
           {items.length} items. Your call.
         </h2>

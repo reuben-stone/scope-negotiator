@@ -55,7 +55,7 @@ export default function LoginPage() {
 
   return (
     <div className={styles.screen}>
-      <a href="/" className={styles.brandMark} aria-label="Scope Negotiator — back to start">
+      <a href="/" className={styles.brandMark} aria-label="Scope Negotiator - back to start">
         <img
           src="/scope-negotiator-mark.png"
           alt=""
@@ -68,8 +68,8 @@ export default function LoginPage() {
           Your team shouldn&apos;t have to explain itself every time.
         </h1>
         <p className={styles.copy}>
-          Sign in to save scopes, team context and approved memory across
-          negotiations.
+          Sign in to save scopes, products, team context and approved memory
+          across negotiations.
         </p>
         <p className={styles.principle}>
           AI Proposes. You Decide. Software Remembers.
