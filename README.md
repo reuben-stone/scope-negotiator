@@ -137,6 +137,8 @@ Motion is minimal and purposeful. Transitions confirm state changes rather than 
 - **TypeScript** &mdash; strict mode
 - **Zod 4** &mdash; request validation, response schema validation, JSON Schema generation
 - **Anthropic SDK** &mdash; Claude via forced tool use for structured output (model configurable via env var)
+- **Auth.js v5** &mdash; Credentials provider, JWT sessions, middleware-protected routes
+- **Drizzle ORM + Turso** &mdash; hosted SQLite for user and workspace persistence
 - **CSS Modules** &mdash; no UI library, no Tailwind
 
 ## Running locally
@@ -152,6 +154,13 @@ Create `.env.local`:
 ```
 ANTHROPIC_API_KEY=your-key-here
 ANTHROPIC_MODEL=claude-sonnet-4-5-20250929   # optional, defaults to this value
+
+# Auth
+AUTH_SECRET=your-auth-secret
+
+# Database (Turso)
+TURSO_DATABASE_URL=your-turso-url
+TURSO_AUTH_TOKEN=your-turso-token
 ```
 
 ```bash
@@ -159,6 +168,8 @@ npm run dev     # development server
 npm run build   # production build
 npm start       # serve production build
 ```
+
+The core scoping flow works without auth or database credentials. Authentication and workspace features require the auth and database environment variables.
 
 ## Testing
 
@@ -173,27 +184,35 @@ The implementation can be evaluated by running different kinds of briefs through
 
 Useful things to verify: Does the model identify genuine unknowns rather than inventing answers? Do clarification questions target decisions that would change scope? Are classifications defensible? Does a 0-question analysis work correctly?
 
-## Deliberate scope decisions
+## Current state
 
-The following were intentionally not built:
+**Fully functional:**
 
-- **Authentication** &mdash; the core loop does not require user identity
-- **Persistence** &mdash; scopes live in memory for this session only
-- **Team/organisational memory** &mdash; no cross-session context
-- **Integrations** &mdash; no Jira, Linear, Notion or similar
-- **Vector search / RAG** &mdash; the model works from the supplied brief alone
-- **Multi-agent orchestration** &mdash; single model, two calls
-- **Streaming** &mdash; responses are short enough that streaming adds complexity without UX benefit
-- **Model selection UI** &mdash; one model, server-configured
+- Complete five-stage scoping workflow (Context &rarr; Understand &rarr; Clarify &rarr; Negotiate &rarr; Lock)
+- AI analysis and proposal via server-side Anthropic API calls
+- User registration, authentication and workspace creation
+- Markdown export of locked scope documents
+- Back navigation and re-lock flow
+- Responsive mobile layout
 
-The challenge was scoped around proving one thing: can Scope Negotiator turn real user context into useful, transparent, structured scope reasoning with the human in control?
+**Infrastructure in place, not yet wired:**
 
-Scope Negotiator itself should demonstrate disciplined scope.
+- Database schema for scopes and team context (defined in Drizzle, pushed to Turso)
+- Workspace UI shell (Scopes, Product Context, Team, Memory pages exist as scaffolds)
+
+**Not yet built:**
+
+- Scope persistence &mdash; locked scopes live in memory for the current session only
+- Team/organisational memory &mdash; no cross-session context
+- Integrations &mdash; no Jira, Linear, Notion or similar
+- Vector search / RAG &mdash; the model works from the supplied brief alone
+- Multi-agent orchestration &mdash; single model, two calls
+- Streaming &mdash; responses are short enough that streaming adds complexity without UX benefit
+- Model selection UI &mdash; one model, server-configured
 
 ## What I would build next
 
-- **Persisted scopes** &mdash; save and revisit locked scope documents
-- **Authentication** &mdash; user identity, scope ownership
+- **Scope persistence** &mdash; save locked scope documents to the database, revisit and compare from the workspace
 - **Organisational memory** &mdash; human-approved context that carries across scoping sessions (team capabilities, technical constraints, past decisions)
 - **Scope history** &mdash; compare how scope evolved across iterations
 - **Feedback loop** &mdash; after delivery, compare scoped effort vs. actual to calibrate future proposals
@@ -205,7 +224,7 @@ Scope Negotiator itself should demonstrate disciplined scope.
 
 > "AI proposes. Humans decide. Software remembers."
 
-The second principle describes the intended architecture. Persistence is not yet implemented. When it is, the system will remember locked scopes, human overrides and organisational context, but only what the human has explicitly approved.
+The second principle describes the intended architecture. Persistence is partially implemented. When complete, the system will remember locked scopes, human overrides and organisational context, but only what the human has explicitly approved.
 
 ---
 

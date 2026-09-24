@@ -296,6 +296,9 @@
     width: 100%;
   }
 
+  .modeSection {
+    padding-bottom: var(--space-6);
+  }
 }
 
 @media (max-width: 600px) {
