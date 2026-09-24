@@ -69,55 +69,78 @@ function ScopeCard({
 }
 
 export function NegotiateScreen() {
-  const { state, moveScopeItem, lockScope } = useWorkflow();
+  const { state, dispatch, moveScopeItem, lockScope } = useWorkflow();
   const items = state.proposal?.items ?? [];
 
   const overrideCount = items.filter((i) => i.userOverride).length;
 
   return (
     <div className={styles.screen}>
-      <h2 className={styles.heading}>
-        {items.length} items. Your call.
-      </h2>
-      <p className={styles.subheading}>
-        AI recommended this breakdown. Move items between columns to override.
-        {overrideCount > 0 &&
-          ` ${overrideCount} override${overrideCount !== 1 ? "s" : ""} applied.`}
-      </p>
+      {/* Local nav */}
+      <div className={styles.localNav}>
+        <button
+          type="button"
+          className={styles.backLink}
+          onClick={() => dispatch({ type: "BACK_TO_CLARIFY" })}
+        >
+          ← Back
+        </button>
+      </div>
 
-      <div className={styles.board}>
-        {COLUMNS.map((col) => {
-          const colItems = items.filter(
-            (i) => i.currentClassification === col.key
-          );
-          return (
-            <div key={col.key} className={styles.column}>
-              <div className={col.headerClass}>
-                <span className={styles.columnLabel}>{col.label}</span>
-                <span className={styles.columnCount}>{colItems.length}</span>
+      <div className={styles.content}>
+        <h2 className={styles.heading}>
+          {items.length} items. Your call.
+        </h2>
+        <p className={styles.subheading}>
+          AI recommended this breakdown. Move items between columns to override.
+          {overrideCount > 0 &&
+            ` ${overrideCount} override${overrideCount !== 1 ? "s" : ""} applied.`}
+        </p>
+
+        <div className={styles.board}>
+          {COLUMNS.map((col) => {
+            const colItems = items.filter(
+              (i) => i.currentClassification === col.key
+            );
+            return (
+              <div key={col.key} className={styles.column}>
+                <div className={col.headerClass}>
+                  <span className={styles.columnLabel}>{col.label}</span>
+                  <span className={styles.columnCount}>{colItems.length}</span>
+                </div>
+                <div className={styles.columnBody}>
+                  {colItems.length === 0 ? (
+                    <p className={styles.empty}>Empty</p>
+                  ) : (
+                    colItems.map((item) => (
+                      <ScopeCard
+                        key={item.id}
+                        item={item}
+                        onMove={(to) => moveScopeItem(item.id, to)}
+                      />
+                    ))
+                  )}
+                </div>
               </div>
-              <div className={styles.columnBody}>
-                {colItems.length === 0 ? (
-                  <p className={styles.empty}>Empty</p>
-                ) : (
-                  colItems.map((item) => (
-                    <ScopeCard
-                      key={item.id}
-                      item={item}
-                      onMove={(to) => moveScopeItem(item.id, to)}
-                    />
-                  ))
-                )}
-              </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
 
       <div className={styles.actions}>
         <Button variant="primary" onClick={lockScope}>
           Lock Scope →
         </Button>
+      </div>
+
+      <div className={styles.footerOuter}>
+        <footer className={styles.footer}>
+          <span>
+            Scope Negotiator<sup>&reg;</sup>&ensp;|&ensp;Product Scoping
+            System&ensp;|&ensp;V1.0
+          </span>
+          <span>Negotiate&ensp;|&ensp;User Decision&ensp;|&ensp;04 / 05</span>
+        </footer>
       </div>
     </div>
   );

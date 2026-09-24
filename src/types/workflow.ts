@@ -37,7 +37,10 @@ export type WorkflowAction =
   | { type: "SUBMIT_CONTEXT"; context: ScopeContext }
   | { type: "SET_ANALYSIS"; analysis: ScopeAnalysis }
   | { type: "ANSWER_QUESTION"; questionId: string; answer: string }
+  | { type: "BACK_TO_CONTEXT" }
   | { type: "PROCEED_TO_CLARIFY" }
+  | { type: "BACK_TO_UNDERSTAND" }
+  | { type: "BACK_TO_CLARIFY" }
   | { type: "SET_PROPOSAL"; proposal: ScopeProposal }
   | {
       type: "MOVE_SCOPE_ITEM";

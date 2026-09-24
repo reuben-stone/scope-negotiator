@@ -1,7 +1,48 @@
 .screen {
+  width: 100%;
   max-width: var(--canvas-max);
-  margin: 0 auto;
-  padding: var(--space-6) var(--canvas-gutter);
+  margin-inline: auto;
+  padding-inline: var(--canvas-gutter);
+  min-height: calc(100dvh - 52px);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Local nav ── */
+
+.localNav {
+  display: flex;
+  align-items: center;
+  padding: var(--space-3) 0;
+}
+
+.backLink {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-ink);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: var(--space-1) 0;
+  transition: color var(--motion-fast);
+  white-space: nowrap;
+}
+
+.backLink:hover {
+  color: var(--color-accent);
+}
+
+.backLink:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.content {
+  flex: 1;
+  padding-top: var(--space-5);
 }
 
 .heading {
@@ -26,7 +67,7 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: var(--space-4);
-  margin-bottom: var(--space-6);
+  padding-bottom: var(--space-6);
 }
 
 .category {
@@ -92,9 +133,14 @@
 }
 
 .riskInsight {
-  composes: insight;
-  border-color: var(--color-accent);
-  border-width: 2px;
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  line-height: 1.5;
+  color: var(--color-ink);
+  padding: var(--space-2);
+  border: 2px solid var(--color-accent);
+  border-radius: var(--radius);
+  background: white;
 }
 
 .empty {
@@ -105,17 +151,52 @@
   padding: var(--space-2);
 }
 
+/* ── Bottom action ── */
+
 .actions {
   display: flex;
+  align-items: center;
   justify-content: flex-end;
+  padding: var(--space-4) 0;
+  border-top: 1px solid var(--color-border);
+  margin-top: auto;
 }
+
+/* ── Footer ── */
+
+.footerOuter {
+  border-top: 2px solid var(--color-ink);
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: var(--canvas-max);
+  margin-inline: auto;
+  padding: var(--space-3) var(--canvas-gutter);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+/* ── Responsive ── */
 
 @media (max-width: 700px) {
   .board {
     grid-template-columns: 1fr;
   }
 
-  .screen {
-    padding: var(--space-4) var(--space-3);
+  .footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-1);
   }
 }

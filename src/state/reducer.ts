@@ -35,7 +35,16 @@ export function workflowReducer(
         stage: "understand",
       };
 
+    case "BACK_TO_CONTEXT":
+      return { ...state, stage: "context", analysis: null };
+
     case "PROCEED_TO_CLARIFY":
+      return { ...state, stage: "clarify" };
+
+    case "BACK_TO_UNDERSTAND":
+      return { ...state, stage: "understand" };
+
+    case "BACK_TO_CLARIFY":
       return { ...state, stage: "clarify" };
 
     case "ANSWER_QUESTION": {

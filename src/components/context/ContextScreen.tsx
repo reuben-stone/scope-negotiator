@@ -1,7 +1,6 @@
 import { useState } from "react";
 import type { WorkType } from "@/types/domain";
 import { ScopeNegotiatorMark } from "@/components/shared/ScopeNegotiatorMark";
-import { AiStatus } from "@/components/shared/AiStatus";
 import { ContextFlow } from "@/components/context-flow/ContextFlow";
 import styles from "./ContextScreen.module.css";
 
@@ -90,7 +89,7 @@ export function ContextScreen() {
             System&ensp;|&ensp;V1.0
           </span>
           <span className={styles.footerRight}>
-            <AiStatus />
+            Context&ensp;|&ensp;User Input&ensp;|&ensp;01 / 05
           </span>
         </footer>
       </div>

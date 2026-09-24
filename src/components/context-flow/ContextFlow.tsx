@@ -9,7 +9,6 @@ import { CONTEXT_FLOWS, EMPTY_CONTEXT_DRAFT } from "@/types/domain";
 import { useWorkflow } from "@/state/context";
 import { Button } from "@/components/shared/Button";
 import { Textarea, TextInput } from "@/components/shared/Input";
-import { AiStatus } from "@/components/shared/AiStatus";
 import styles from "./ContextFlow.module.css";
 
 // Step metadata
@@ -204,11 +203,15 @@ export function ContextFlow({ mode, onChangeType }: Props) {
 
   return (
     <div className={styles.workspace}>
-      {/* Local navigation: orientation + step progress */}
+      {/* Local navigation: back + step progress */}
       <div className={styles.localNav}>
-        <span className={styles.localContext}>
-          Context / {mode === "product" ? "New Product" : "New Feature"}
-        </span>
+        <button
+          type="button"
+          className={styles.backLink}
+          onClick={handleBack}
+        >
+          ← {isFirst ? "Change Type" : "Back"}
+        </button>
         <nav className={styles.localSteps} aria-label="Context steps">
           {steps.map((s, i) => (
             <span
@@ -250,9 +253,6 @@ export function ContextFlow({ mode, onChangeType }: Props) {
 
       {/* Bottom actions */}
       <div className={styles.actions}>
-        <Button variant="ghost" onClick={handleBack}>
-          ← {isFirst ? "Change Type" : "Back"}
-        </Button>
         <div className={styles.actionsRight}>
           {stepConfig.optional && (
             <Button variant="ghost" onClick={handleSkip}>
@@ -273,9 +273,8 @@ export function ContextFlow({ mode, onChangeType }: Props) {
             System&ensp;|&ensp;V1.0
           </span>
           <span>
+            Context&ensp;|&ensp;User Input&ensp;|&ensp;
             {String(stepIndex + 1).padStart(2, "0")} / {String(totalSteps).padStart(2, "0")}
-            &ensp;|&ensp;
-            <AiStatus />
           </span>
         </footer>
       </div>

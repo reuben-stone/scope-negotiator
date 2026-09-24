@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { WorkflowProvider, useWorkflow } from "@/state/context";
 import { WorkflowHeader } from "@/components/layout/WorkflowHeader";
 import { ContextScreen } from "@/components/context/ContextScreen";
@@ -13,6 +13,10 @@ import { ErrorState } from "@/components/states/ErrorState";
 
 function WorkflowRouter() {
   const { state, reset, dispatch } = useWorkflow();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [state.stage]);
 
   if (state.error) {
     return (
