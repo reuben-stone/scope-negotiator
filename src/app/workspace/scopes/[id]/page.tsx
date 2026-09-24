@@ -45,6 +45,7 @@ export default async function ScopeDetailPage({
         ← Back to Scopes
       </Link>
       <SavedScopeView
+        id={row.id}
         title={row.title}
         type={row.type as "product" | "feature"}
         data={data}

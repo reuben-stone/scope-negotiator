@@ -59,3 +59,33 @@ export async function GET(
     updatedAt: row.updatedAt,
   });
 }
+
+// ── DELETE /api/scopes/[id] ──
+
+export async function DELETE(
+  _request: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const session = await auth();
+  const workspaceId = (session as { workspaceId?: string })?.workspaceId;
+
+  if (!session?.user?.id || !workspaceId) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  const { id } = await params;
+
+  const [existing] = await db
+    .select({ id: scopes.id })
+    .from(scopes)
+    .where(and(eq(scopes.id, id), eq(scopes.workspaceId, workspaceId)))
+    .limit(1);
+
+  if (!existing) {
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
+  }
+
+  await db.delete(scopes).where(eq(scopes.id, id));
+
+  return NextResponse.json({ deleted: true });
+}

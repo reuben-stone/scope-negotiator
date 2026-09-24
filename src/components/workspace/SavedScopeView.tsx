@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import type { PersistedScope } from "@/lib/db/persisted-scope";
 import type { ScopeItem } from "@/types/domain";
 import { generateMarkdown } from "@/utils/markdown";
@@ -22,14 +23,26 @@ function filterCriteria(
 }
 
 type Props = {
+  id: string;
   title: string;
   type: "product" | "feature";
   data: PersistedScope;
   updatedAt: Date;
 };
 
-export function SavedScopeView({ title, type, data, updatedAt }: Props) {
+export function SavedScopeView({ id, title, type, data, updatedAt }: Props) {
+  const router = useRouter();
   const [copied, setCopied] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+
+  // Lock scroll when modal is open
+  useEffect(() => {
+    if (confirmDelete) {
+      document.body.style.overflow = "hidden";
+      return () => { document.body.style.overflow = ""; };
+    }
+  }, [confirmDelete]);
 
   const { context, analysis, proposal } = data;
 
@@ -66,6 +79,19 @@ export function SavedScopeView({ title, type, data, updatedAt }: Props) {
       // Clipboard write failed
     }
   }, [context, analysis, proposal, data.lockedAt, filteredCriteria]);
+
+  const handleDelete = useCallback(async () => {
+    setDeleting(true);
+    try {
+      const res = await fetch(`/api/scopes/${id}`, { method: "DELETE" });
+      if (res.ok) {
+        router.push("/workspace");
+      }
+    } catch {
+      setDeleting(false);
+      setConfirmDelete(false);
+    }
+  }, [id, router]);
 
   return (
     <div className={styles.container}>
@@ -252,8 +278,15 @@ export function SavedScopeView({ title, type, data, updatedAt }: Props) {
         </aside>
       </div>
 
-      {/* Copy action */}
+      {/* Actions */}
       <div className={styles.actions}>
+        <button
+          type="button"
+          className={styles.deleteLink}
+          onClick={() => setConfirmDelete(true)}
+        >
+          Delete Scope
+        </button>
         <Button variant="primary" onClick={handleCopy}>
           <span className={styles.copyStack}>
             <span className={copied ? styles.labelHidden : styles.labelVisible}>
@@ -265,6 +298,36 @@ export function SavedScopeView({ title, type, data, updatedAt }: Props) {
           </span>
         </Button>
       </div>
+
+      {/* Delete confirmation modal */}
+      {confirmDelete && (
+        <div className={styles.modalOverlay} onClick={() => setConfirmDelete(false)}>
+          <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
+            <h3 className={styles.modalHeading}>Delete This Scope?</h3>
+            <p className={styles.modalText}>
+              This permanently deletes the saved scope and its decision history.
+              This cannot be undone.
+            </p>
+            <div className={styles.modalActions}>
+              <button
+                type="button"
+                className={styles.modalCancel}
+                onClick={() => setConfirmDelete(false)}
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                className={styles.modalDelete}
+                onClick={handleDelete}
+                disabled={deleting}
+              >
+                {deleting ? "Deleting…" : "Delete Scope"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

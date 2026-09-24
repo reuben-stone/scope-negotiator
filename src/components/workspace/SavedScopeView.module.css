@@ -302,9 +302,27 @@
 .actions {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
   padding: var(--space-4) 0;
   border-top: 1px solid var(--color-border);
+}
+
+.deleteLink {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: var(--space-1) 0;
+  transition: opacity var(--motion-fast);
+}
+
+.deleteLink:hover {
+  opacity: 0.7;
 }
 
 .copyStack {
@@ -326,6 +344,101 @@
 .labelHidden {
   opacity: 0;
   pointer-events: none;
+}
+
+/* ── Delete modal ── */
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.modal {
+  background: var(--color-bg);
+  border: 2px solid var(--color-ink);
+  border-radius: var(--radius);
+  box-shadow: 6px 6px 0 var(--color-ink);
+  padding: var(--space-5);
+  max-width: 420px;
+  width: 90%;
+}
+
+.modalHeading {
+  font-family: var(--font-display);
+  font-size: var(--text-base);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--color-ink);
+  margin: 0 0 var(--space-2) 0;
+}
+
+.modalText {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--color-muted);
+  line-height: 1.5;
+  margin: 0 0 var(--space-4) 0;
+}
+
+.modalActions {
+  display: flex;
+  gap: var(--space-3);
+  justify-content: flex-end;
+}
+
+.modalCancel {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-ink);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: var(--space-2) var(--space-3);
+  transition: color var(--motion-fast);
+}
+
+.modalCancel:hover {
+  color: var(--color-muted);
+}
+
+.modalDelete {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: white;
+  background: var(--color-accent);
+  border: 2px solid var(--color-ink);
+  border-radius: var(--radius);
+  cursor: pointer;
+  padding: var(--space-2) var(--space-3);
+  box-shadow: 3px 3px 0 var(--color-ink);
+  transition: transform 80ms, box-shadow 80ms;
+}
+
+.modalDelete:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0 var(--color-ink);
+}
+
+.modalDelete:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 var(--color-ink);
+}
+
+.modalDelete:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 /* ── Responsive ── */
