@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 import type { WorkType } from "@/types/domain";
+import { useAuth } from "@/state/auth";
 import { ScopeNegotiatorMark } from "@/components/shared/ScopeNegotiatorMark";
 import { ContextFlow } from "@/components/context-flow/ContextFlow";
 import styles from "./ContextScreen.module.css";
 
 export function ContextScreen() {
+  const { isAuthenticated, signIn } = useAuth();
   const [mode, setMode] = useState<WorkType | null>(null);
 
   useEffect(() => {
@@ -82,6 +84,25 @@ export function ContextScreen() {
                 →
               </span>
             </button>
+          </div>
+
+          <div className={styles.authEntry}>
+            {isAuthenticated ? (
+              <a href="/workspace" className={styles.authLink}>
+                Workspace →
+              </a>
+            ) : (
+              <span className={styles.authPrompt}>
+                Already have a workspace?{" "}
+                <button
+                  type="button"
+                  className={styles.authLink}
+                  onClick={signIn}
+                >
+                  Sign In →
+                </button>
+              </span>
+            )}
           </div>
         </div>
       </div>

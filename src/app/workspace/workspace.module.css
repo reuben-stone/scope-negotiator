@@ -1,0 +1,153 @@
+.layout {
+  display: flex;
+  min-height: 100dvh;
+}
+
+.main {
+  flex: 1;
+  padding: var(--space-6) var(--space-6);
+  max-width: 1000px;
+}
+
+/* ── Gate screen (unauthenticated) ── */
+
+.gateScreen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100dvh;
+  padding: var(--space-6) var(--canvas-gutter);
+  padding-bottom: 8vh;
+}
+
+.gateContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--space-3);
+}
+
+.gateHeading {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--color-ink);
+}
+
+.gateText {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  color: var(--color-muted);
+  line-height: 1.5;
+  max-width: 400px;
+}
+
+.gateButton {
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: white;
+  background: var(--color-accent);
+  border: 2px solid var(--color-ink);
+  border-radius: var(--radius);
+  padding: var(--space-2) var(--space-5);
+  cursor: pointer;
+  box-shadow: 4px 4px 0 var(--color-ink);
+  transition: transform 80ms, box-shadow 80ms;
+}
+
+.gateButton:hover {
+  background: var(--color-accent-hover);
+}
+
+.gateButton:active {
+  transform: translate(3px, 3px);
+  box-shadow: 1px 1px 0 var(--color-ink);
+}
+
+.gateBack {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  text-decoration: none;
+  margin-top: var(--space-2);
+  transition: color var(--motion-fast);
+}
+
+.gateBack:hover {
+  color: var(--color-ink);
+}
+
+/* ── Shared workspace page styles ── */
+
+.pageHeading {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  color: var(--color-ink);
+  margin: 0 0 var(--space-2) 0;
+}
+
+.pageDescription {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  color: var(--color-muted);
+  line-height: 1.5;
+  margin: 0 0 var(--space-6) 0;
+  max-width: 560px;
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-5) var(--space-4);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius);
+  border-style: dashed;
+}
+
+.emptyText {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.emptyAction {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-ink);
+  text-decoration: none;
+  transition: color var(--motion-fast);
+}
+
+.emptyAction:hover {
+  color: var(--color-accent);
+}
+
+@media (max-width: 768px) {
+  .layout {
+    flex-direction: column;
+  }
+
+  .main {
+    padding: var(--space-4) var(--canvas-gutter);
+  }
+}

@@ -1,6 +1,7 @@
 import { useState, useCallback, useMemo } from "react";
 import type { ScopeItem } from "@/types/domain";
 import { useWorkflow } from "@/state/context";
+import { useAuth } from "@/state/auth";
 import { generateMarkdown } from "@/utils/markdown";
 import { Button } from "@/components/shared/Button";
 import styles from "./LockScreen.module.css";
@@ -28,6 +29,7 @@ function filterCriteria(
 
 export function LockScreen() {
   const { state, reset, dispatch } = useWorkflow();
+  const { isAuthenticated, signIn } = useAuth();
   const [copied, setCopied] = useState(false);
 
   const locked = state.lockedScope;
@@ -247,9 +249,22 @@ export function LockScreen() {
 
       {/* Bottom actions */}
       <div className={styles.actions}>
-        <Button variant="ghost" onClick={reset}>
-          New Scope
-        </Button>
+        {!isAuthenticated && (
+          <button
+            type="button"
+            className={styles.savePrompt}
+            onClick={signIn}
+          >
+            Sign In to Save →
+          </button>
+        )}
+        {isAuthenticated && (
+          <span className={styles.savedConfirm}>Saved to Workspace ✓</span>
+        )}
+        <div className={styles.actionsRight}>
+          <Button variant="ghost" onClick={reset}>
+            New Scope
+          </Button>
         <Button
           variant="primary"
           onClick={handleCopy}
@@ -271,6 +286,7 @@ export function LockScreen() {
         <span className={styles.srOnly} role="status" aria-live="polite">
           {copied ? "Markdown copied to clipboard" : ""}
         </span>
+        </div>
       </div>
 
       {/* Footer */}

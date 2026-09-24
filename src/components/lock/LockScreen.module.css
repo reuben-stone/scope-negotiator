@@ -308,11 +308,43 @@
 .actions {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-  gap: var(--space-3);
+  justify-content: space-between;
   padding: var(--space-4) 0;
   border-top: 1px solid var(--color-border);
   margin-top: auto;
+}
+
+.actionsRight {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.savePrompt {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-ink);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: var(--space-1) 0;
+  transition: color var(--motion-fast);
+}
+
+.savePrompt:hover {
+  color: var(--color-accent);
+}
+
+.savedConfirm {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-muted);
 }
 
 .copyButton {
