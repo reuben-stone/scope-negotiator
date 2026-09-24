@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="public/scope-negotiator-wordmark.svg" alt="Scope Negotiator" width="420" />
+  <img src="public/scope-negotiator-wordmark.png" alt="Scope Negotiator" width="480" />
 </p>
 
 <p align="center">
