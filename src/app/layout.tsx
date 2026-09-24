@@ -22,6 +22,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.scopenegotiator.com"),
   title: "Scope Negotiator | Product Scoping System",
   description:
     "Turn ambitious product ideas and feature requests into credible, human-approved scope. AI proposes. You decide.",
@@ -62,6 +63,21 @@ export default function RootLayout({
         <a href="#main-content" className="skip-link">
           Skip to content
         </a>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebApplication",
+              name: "Scope Negotiator",
+              url: "https://www.scopenegotiator.com",
+              description:
+                "Turn ambitious product ideas and feature requests into credible, human-approved scope. AI proposes. You decide.",
+              applicationCategory: "BusinessApplication",
+              operatingSystem: "Any",
+            }),
+          }}
+        />
         <Providers>{children}</Providers>
         <Analytics />
       </body>

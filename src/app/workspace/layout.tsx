@@ -1,7 +1,14 @@
+import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { WorkspaceSidebar } from "@/components/workspace/WorkspaceSidebar";
 import styles from "./workspace.module.css";
+
+export const metadata: Metadata = {
+  title: "Workspace | Scope Negotiator",
+  description:
+    "Manage your scopes, products, and team context in one place.",
+};
 
 export default async function WorkspaceLayout({
   children,
