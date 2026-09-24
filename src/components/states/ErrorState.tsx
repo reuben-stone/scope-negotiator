@@ -13,14 +13,26 @@ export function ErrorState({
   onRetry,
 }: Props) {
   return (
-    <div className={styles.container} role="alert">
-      <h2 className={styles.heading}>{heading}</h2>
-      <p className={styles.message}>{message}</p>
-      {onRetry && (
-        <Button variant="primary" onClick={onRetry}>
-          Try Again
-        </Button>
-      )}
+    <div className={styles.screen}>
+      <div className={styles.container} role="alert">
+        <h2 className={styles.heading}>{heading}</h2>
+        <p className={styles.message}>{message}</p>
+        {onRetry && (
+          <Button variant="primary" onClick={onRetry}>
+            Try Again
+          </Button>
+        )}
+      </div>
+
+      <div className={styles.footerOuter}>
+        <footer className={styles.footer}>
+          <span>
+            Scope Negotiator<sup>&reg;</sup>&ensp;|&ensp;Product Scoping
+            System&ensp;|&ensp;V1.0
+          </span>
+          <span>Error</span>
+        </footer>
+      </div>
     </div>
   );
 }
