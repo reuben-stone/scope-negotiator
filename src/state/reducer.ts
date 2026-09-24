@@ -47,6 +47,9 @@ export function workflowReducer(
     case "BACK_TO_CLARIFY":
       return { ...state, stage: "clarify" };
 
+    case "BACK_TO_NEGOTIATE":
+      return { ...state, stage: "negotiate", lockedScope: null };
+
     case "ANSWER_QUESTION": {
       if (!state.analysis) return state;
       return {

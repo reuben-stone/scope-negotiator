@@ -41,6 +41,7 @@ export type WorkflowAction =
   | { type: "PROCEED_TO_CLARIFY" }
   | { type: "BACK_TO_UNDERSTAND" }
   | { type: "BACK_TO_CLARIFY" }
+  | { type: "BACK_TO_NEGOTIATE" }
   | { type: "SET_PROPOSAL"; proposal: ScopeProposal }
   | {
       type: "MOVE_SCOPE_ITEM";
