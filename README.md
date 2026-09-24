@@ -31,11 +31,11 @@ Scope Negotiator takes a different position: uncertainty should remain visible. 
 
 **Understand** &mdash; The model categorises observations as Known, Assumed, Unknown or High Risk. No invented certainty. If something is genuinely unknown, it stays unknown.
 
-**Clarify** &mdash; Up to three clarification questions, only where the answer could materially change scope. Zero questions is a valid result. Answers are treated as authoritative input to the next stage.
+**Clarify** &mdash; Up to three clarification questions, only where the answer could materially change scope. Zero questions is a valid result. Answers are treated as authoritative input to the next stage. Users can skip questions entirely; unanswered questions remain unresolved rather than being silently filled.
 
-**Negotiate** &mdash; Scope items are proposed with Ship / Negotiate / Cut classifications, each with effort, risk and reasoning. These are recommendations. The user moves items between columns freely. Overrides are tracked.
+**Negotiate** &mdash; Scope items are proposed with Ship / Negotiate / Cut classifications, each with effort, risk and reasoning. Items must represent genuine deliverables, not planning activities. These are recommendations. The user moves items between columns freely. Overrides are tracked.
 
-**Lock** &mdash; The final human-approved scope with full audit trail of overrides, success criteria and constraints. Exportable as Markdown.
+**Lock** &mdash; Two-column final document: the human-approved scope with audit trail on the left, context summary on the right. Success criteria are filtered against the final ship scope so deferred capabilities do not appear as requirements. Users can return to Negotiate, change classifications, and re-lock. Exportable as Markdown.
 
 ## Engineering approach
 
@@ -92,6 +92,8 @@ The provider adapter (`src/lib/ai/provider.ts`) uses Anthropic's tool use with f
 - Preserve meaningful unresolved uncertainty
 - Only ask clarification questions whose answers could materially change scope
 - Human clarification answers are authoritative
+- Scope items must be deliverables, not planning activities
+- Skipped clarification questions remain unresolved, not silently answered
 
 ## Guardrails
 
@@ -104,6 +106,9 @@ The provider adapter (`src/lib/ai/provider.ts`) uses Anthropic's tool use with f
 - Failures preserve all entered context and revert to the last actionable stage
 - Retry clears the error state without destroying user input
 - Classification is always a recommendation; overrides are application-owned
+- Success criteria are filtered against the final ship scope at lock time
+- Lock-then-edit-then-re-lock recomputes everything from current state
+- Missing API key returns a clear 503 before reaching the provider
 
 ## Design
 
@@ -125,7 +130,7 @@ Motion is minimal and purposeful. Transitions confirm state changes rather than 
 - **React 19** &mdash; `useReducer` + Context for workflow state, no state library
 - **TypeScript** &mdash; strict mode
 - **Zod 4** &mdash; request validation, response schema validation, JSON Schema generation
-- **Anthropic SDK** &mdash; Claude Sonnet via forced tool use for structured output
+- **Anthropic SDK** &mdash; Claude via forced tool use for structured output (model configurable via env var)
 - **CSS Modules** &mdash; no UI library, no Tailwind
 
 ## Running locally
@@ -140,6 +145,7 @@ Create `.env.local`:
 
 ```
 ANTHROPIC_API_KEY=your-key-here
+ANTHROPIC_MODEL=claude-sonnet-4-5-20250929   # optional, defaults to this value
 ```
 
 ```bash
