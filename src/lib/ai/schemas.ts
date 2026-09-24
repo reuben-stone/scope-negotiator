@@ -32,8 +32,8 @@ export const ProposalResponseSchema = z.object({
     .array(
       z.object({
         title: z.string().min(1),
-        description: z.string().optional(),
-        reasoning: z.string().min(1),
+        description: z.string().min(1),
+        rationale: z.string().min(1),
         effort: z.enum(["low", "medium", "high"]),
         risk: z.enum(["low", "medium", "high"]),
         classification: z.enum(["ship", "negotiate", "cut"]),

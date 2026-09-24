@@ -19,8 +19,9 @@ export const scopes = sqliteTable("scopes", {
   id: text("id").primaryKey().$defaultFn(() => crypto.randomUUID()),
   workspaceId: text("workspace_id").notNull().references(() => workspaces.id),
   type: text("type").notNull(), // 'product' | 'feature'
+  title: text("title").notNull(),
   goal: text("goal").notNull(),
-  lockedScope: text("locked_scope").notNull(), // JSON blob
+  data: text("data").notNull(), // JSON blob: PersistedScope
   createdAt: integer("created_at", { mode: "timestamp" }).notNull().$defaultFn(() => new Date()),
   updatedAt: integer("updated_at", { mode: "timestamp" }).notNull().$defaultFn(() => new Date()),
 });

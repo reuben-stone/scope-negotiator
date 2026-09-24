@@ -87,7 +87,7 @@ export const MOCK_PROPOSAL: ScopeProposal = {
       title: "AI reply suggestions for agents",
       description:
         "When an agent opens a ticket, the system generates a suggested reply based on ticket content and historical responses. Agent reviews, edits if needed, and sends.",
-      reasoning:
+      rationale:
         "Core value proposition. Supervised suggestions are shippable within the timeline and satisfy the safety constraint.",
       effort: "high",
       risk: "medium",
@@ -100,7 +100,7 @@ export const MOCK_PROPOSAL: ScopeProposal = {
       title: "Ticket classification and routing",
       description:
         "Automatically tag incoming tickets by category and urgency. Route to appropriate agent or queue.",
-      reasoning:
+      rationale:
         "Relatively straightforward NLP task. Improves agent efficiency and is a prerequisite for any future automation.",
       effort: "medium",
       risk: "low",
@@ -113,7 +113,7 @@ export const MOCK_PROPOSAL: ScopeProposal = {
       title: "Response quality tracking",
       description:
         "Track suggestion acceptance rate, edit distance, and agent feedback. Surface basic metrics in an internal dashboard.",
-      reasoning:
+      rationale:
         "Required to define and measure the \"safe enough\" constraint. Without this, there's no evidence base for expanding to automation later.",
       effort: "medium",
       risk: "low",
@@ -126,7 +126,7 @@ export const MOCK_PROPOSAL: ScopeProposal = {
       title: "Common question auto-drafts",
       description:
         "For high-confidence ticket categories, auto-generate a draft reply and present it for one-click agent approval.",
-      reasoning:
+      rationale:
         "Valuable but depends on having enough data from the suggestion system to identify high-confidence categories. Better as a fast-follow.",
       effort: "medium",
       risk: "medium",
@@ -139,7 +139,7 @@ export const MOCK_PROPOSAL: ScopeProposal = {
       title: "Analytics dashboard",
       description:
         "Dedicated dashboard showing ticket volumes, AI usage stats, response times, and customer satisfaction trends.",
-      reasoning:
+      rationale:
         "Useful but not critical for launch. Basic quality metrics (shipped above) cover the safety requirement. A full dashboard is a separate product surface.",
       effort: "high",
       risk: "low",
@@ -152,7 +152,7 @@ export const MOCK_PROPOSAL: ScopeProposal = {
       title: "Zendesk integration",
       description:
         "Bidirectional sync with Zendesk: import tickets, push responses, sync status.",
-      reasoning:
+      rationale:
         "Major integration effort (OAuth, webhooks, field mapping, error handling). At 2-3 weeks, it consumes half the timeline and isn't needed to prove the AI capability works.",
       effort: "high",
       risk: "high",
@@ -165,7 +165,7 @@ export const MOCK_PROPOSAL: ScopeProposal = {
       title: "Fully autonomous ticket handling",
       description:
         "AI responds to tickets without agent review for qualifying categories.",
-      reasoning:
+      rationale:
         "Requires confidence thresholds, fallback logic, extensive testing, and a defined safety bar that doesn't exist yet. Premature for a first release.",
       effort: "high",
       risk: "high",

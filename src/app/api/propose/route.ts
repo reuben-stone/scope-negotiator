@@ -40,9 +40,12 @@ export async function POST(request: Request) {
     const proposal: ScopeProposal = {
       goal: result.goal,
       items: result.items.map((item, i) => ({
-        ...item,
         id: `item-${i + 1}`,
-        description: item.description ?? undefined,
+        title: item.title,
+        description: item.description,
+        rationale: item.rationale,
+        effort: item.effort,
+        risk: item.risk,
         recommendedClassification: item.classification,
         currentClassification: item.classification,
         userOverride: false,

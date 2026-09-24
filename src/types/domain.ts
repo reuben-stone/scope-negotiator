@@ -29,8 +29,8 @@ export type ScopeClassification = "ship" | "negotiate" | "cut";
 export type ScopeItem = {
   id: string;
   title: string;
-  description?: string;
-  reasoning: string;
+  description: string;
+  rationale: string;
   effort: "low" | "medium" | "high";
   risk: "low" | "medium" | "high";
   recommendedClassification: ScopeClassification;
@@ -51,6 +51,7 @@ export type ScopeProposal = {
 
 export type LockedScope = {
   context: ScopeContext;
+  analysis: ScopeAnalysis;
   proposal: ScopeProposal;
   lockedAt: string;
 };

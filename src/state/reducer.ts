@@ -92,12 +92,13 @@ export function workflowReducer(
     }
 
     case "LOCK_SCOPE": {
-      if (!state.proposal || !state.scopeContext) return state;
+      if (!state.proposal || !state.scopeContext || !state.analysis) return state;
       return {
         ...state,
         stage: "lock",
         lockedScope: {
           context: state.scopeContext,
+          analysis: state.analysis,
           proposal: state.proposal,
           lockedAt: new Date().toISOString(),
         },

@@ -4,10 +4,12 @@ function formatItems(items: ScopeItem[], label: string): string {
   if (items.length === 0) return "";
 
   const lines = items.map((item) => {
-    let entry = `- **${item.title}**`;
-    if (item.description) entry += `\n  ${item.description}`;
-    entry += `\n  Effort: ${item.effort.toUpperCase()} · Risk: ${item.risk.toUpperCase()}`;
-    if (item.userOverride) entry += ` · _User override_`;
+    let entry = `### ${item.title}\n\n${item.description}`;
+    entry += `\n\n- Effort: ${item.effort.toUpperCase()}`;
+    entry += `\n- Risk: ${item.risk.toUpperCase()}`;
+    if (item.userOverride) {
+      entry += `\n- User override: AI proposed ${item.recommendedClassification.toUpperCase()} → final decision ${item.currentClassification.toUpperCase()}`;
+    }
     return entry;
   });
 
@@ -18,9 +20,10 @@ function formatDeferred(items: ScopeItem[], label: string): string {
   if (items.length === 0) return "";
 
   const lines = items.map((item) => {
-    let entry = `- **${item.title}** [${item.currentClassification.toUpperCase()}]`;
-    if (item.description) entry += `\n  ${item.description}`;
-    if (item.userOverride) entry += `\n  _User override_`;
+    let entry = `### ${item.title} [${item.currentClassification.toUpperCase()}]\n\n${item.description}`;
+    if (item.userOverride) {
+      entry += `\n\n- User override: AI proposed ${item.recommendedClassification.toUpperCase()} → final decision ${item.currentClassification.toUpperCase()}`;
+    }
     return entry;
   });
 

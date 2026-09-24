@@ -53,8 +53,17 @@ Human clarification answers are authoritative and should directly influence the 
 Propose a scope breakdown with:
 - A concise goal statement
 - Scope items, each classified as ship (should be in v1), negotiate (valuable but debatable for v1), or cut (defer or remove)
-- Each item needs: title, description (optional), reasoning for classification, effort (low/medium/high), risk (low/medium/high)
 - Success criteria for the agreed scope
+
+Each scope item requires two distinct text fields:
+
+"description" — a concise, implementation-useful description of what the capability includes and, where relevant, its important boundaries. It should answer: "What are we actually building or deferring?" It should NOT explain why the item was classified.
+
+"rationale" — the AI's reasoning for the proposed classification. It should answer: "Why did you recommend SHIP / NEGOTIATE / CUT for this item?" Reference actual constraints, clarifications and trade-offs where relevant.
+
+These two fields must not be paraphrases of one another.
+
+Each item also needs: title, effort (low/medium/high), risk (low/medium/high).
 
 Scope items must represent product capabilities, features, deliverables or deliberately deferred work. Do not return planning activities such as defining requirements, clarifying capacity, establishing timelines or documenting constraints as scope items. Those inputs inform the recommendation; they are not themselves things to ship.
 

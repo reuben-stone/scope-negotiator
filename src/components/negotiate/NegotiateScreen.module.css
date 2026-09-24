@@ -154,7 +154,7 @@
   margin: 0 0 var(--space-2) 0;
 }
 
-.cardReasoning {
+.cardRationale {
   font-family: var(--font-body);
   font-size: var(--text-xs);
   color: var(--color-muted);

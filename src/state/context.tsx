@@ -3,12 +3,67 @@ import {
   useContext,
   useReducer,
   useCallback,
+  useEffect,
+  useRef,
   type ReactNode,
 } from "react";
 import type { WorkflowState, WorkflowAction } from "@/types/workflow";
 import type { ScopeContext, ScopeClassification } from "@/types/domain";
 import { initialWorkflowState } from "@/types/workflow";
 import { workflowReducer } from "./reducer";
+import { useAuth } from "./auth";
+
+const STORAGE_KEY = "scope-negotiator:workflow";
+const SAVED_ID_KEY = "scope-negotiator:savedScopeId";
+
+function saveState(state: WorkflowState, savedScopeId: string | null) {
+  try {
+    // Don't persist loading or error states
+    const toSave: WorkflowState = {
+      ...state,
+      loading: false,
+      error: null,
+    };
+    sessionStorage.setItem(STORAGE_KEY, JSON.stringify(toSave));
+    if (savedScopeId) {
+      sessionStorage.setItem(SAVED_ID_KEY, savedScopeId);
+    } else {
+      sessionStorage.removeItem(SAVED_ID_KEY);
+    }
+  } catch {
+    // Storage unavailable
+  }
+}
+
+function loadState(): WorkflowState | null {
+  try {
+    const raw = sessionStorage.getItem(STORAGE_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw) as WorkflowState;
+    // Only restore if we have meaningful state beyond context stage
+    if (parsed.stage === "context" && !parsed.scopeContext) return null;
+    return { ...parsed, loading: false, error: null };
+  } catch {
+    return null;
+  }
+}
+
+function loadSavedScopeId(): string | null {
+  try {
+    return sessionStorage.getItem(SAVED_ID_KEY);
+  } catch {
+    return null;
+  }
+}
+
+function clearState() {
+  try {
+    sessionStorage.removeItem(STORAGE_KEY);
+    sessionStorage.removeItem(SAVED_ID_KEY);
+  } catch {
+    // Storage unavailable
+  }
+}
 
 type WorkflowContextValue = {
   state: WorkflowState;
@@ -18,12 +73,28 @@ type WorkflowContextValue = {
   moveScopeItem: (itemId: string, to: ScopeClassification) => void;
   lockScope: () => void;
   reset: () => void;
+  savedScopeId: string | null;
 };
 
 const WorkflowContext = createContext<WorkflowContextValue | null>(null);
 
+function initState(): WorkflowState {
+  // SSR safety: sessionStorage not available on server
+  if (typeof window === "undefined") return initialWorkflowState;
+  return loadState() ?? initialWorkflowState;
+}
+
 export function WorkflowProvider({ children }: { children: ReactNode }) {
-  const [state, dispatch] = useReducer(workflowReducer, initialWorkflowState);
+  const [state, dispatch] = useReducer(workflowReducer, undefined, initState);
+  const { isAuthenticated } = useAuth();
+  const savedScopeIdRef = useRef<string | null>(
+    typeof window !== "undefined" ? loadSavedScopeId() : null
+  );
+
+  // Persist state on every change
+  useEffect(() => {
+    saveState(state, savedScopeIdRef.current);
+  }, [state]);
 
   const submitContext = useCallback(async (ctx: ScopeContext) => {
     dispatch({ type: "SUBMIT_CONTEXT", context: ctx });
@@ -43,7 +114,6 @@ export function WorkflowProvider({ children }: { children: ReactNode }) {
       const analysis = await res.json();
       dispatch({ type: "SET_ANALYSIS", analysis });
     } catch (err) {
-      // Revert to context stage so retry doesn't dead-end at understand
       dispatch({
         type: "SET_ERROR",
         error:
@@ -96,9 +166,48 @@ export function WorkflowProvider({ children }: { children: ReactNode }) {
 
   const lockScope = useCallback(() => {
     dispatch({ type: "LOCK_SCOPE" });
-  }, []);
+
+    // Auto-save for authenticated users (fire-and-forget)
+    if (isAuthenticated && state.scopeContext && state.analysis && state.proposal) {
+      const data = {
+        context: state.scopeContext,
+        analysis: state.analysis,
+        proposal: state.proposal,
+        lockedAt: new Date().toISOString(),
+      };
+
+      const body: { type: string; data: typeof data; id?: string } = {
+        type: state.scopeContext.workType,
+        data,
+      };
+
+      // Re-lock: update existing scope
+      if (savedScopeIdRef.current) {
+        body.id = savedScopeIdRef.current;
+      }
+
+      fetch("/api/scopes", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      })
+        .then((res) => {
+          if (res.ok) return res.json();
+          throw new Error("Save failed");
+        })
+        .then((result: { id: string }) => {
+          savedScopeIdRef.current = result.id;
+          saveState(state, result.id);
+        })
+        .catch(() => {
+          // Silent fail — save is best-effort, workflow continues
+        });
+    }
+  }, [isAuthenticated, state.scopeContext, state.analysis, state.proposal]);
 
   const reset = useCallback(() => {
+    savedScopeIdRef.current = null;
+    clearState();
     dispatch({ type: "RESET" });
   }, []);
 
@@ -112,6 +221,7 @@ export function WorkflowProvider({ children }: { children: ReactNode }) {
         moveScopeItem,
         lockScope,
         reset,
+        savedScopeId: savedScopeIdRef.current,
       }}
     >
       {children}

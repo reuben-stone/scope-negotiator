@@ -123,11 +123,9 @@ export function LockScreen() {
                           <span className={styles.overrideBadge}>Override</span>
                         )}
                       </p>
-                      {item.description && (
-                        <p className={styles.itemDescription}>
-                          {item.description}
-                        </p>
-                      )}
+                      <p className={styles.itemDescription}>
+                        {item.description}
+                      </p>
                       <div className={styles.itemMeta}>
                         <span className={styles.badge}>
                           Effort: {item.effort.toUpperCase()}
@@ -159,11 +157,9 @@ export function LockScreen() {
                           <span className={styles.overrideBadge}>Override</span>
                         )}
                       </p>
-                      {item.description && (
-                        <p className={styles.itemDescription}>
-                          {item.description}
-                        </p>
-                      )}
+                      <p className={styles.itemDescription}>
+                        {item.description}
+                      </p>
                     </li>
                   ))}
                 </ul>

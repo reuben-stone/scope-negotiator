@@ -17,6 +17,12 @@ const COLUMNS: {
   { key: "cut", label: "Cut", headerClass: styles.columnHeaderCut },
 ];
 
+const COLUMN_ORDER: Record<ScopeClassification, number> = {
+  ship: 0,
+  negotiate: 1,
+  cut: 2,
+};
+
 const MOVE_TARGETS: Record<ScopeClassification, ScopeClassification[]> = {
   ship: ["negotiate", "cut"],
   negotiate: ["ship", "cut"],
@@ -36,10 +42,7 @@ function ScopeCard({
     <div className={item.userOverride ? styles.cardOverride : styles.card}>
       <div className={styles.cardContent}>
         <h4 className={styles.cardTitle}>{item.title}</h4>
-        {item.description && (
-          <p className={styles.cardDescription}>{item.description}</p>
-        )}
-        <p className={styles.cardReasoning}>{item.reasoning}</p>
+        <p className={styles.cardDescription}>{item.description}</p>
         <div className={styles.cardMeta}>
           <span className={styles.badge}>
             Effort: {item.effort.toUpperCase()}
@@ -60,7 +63,7 @@ function ScopeCard({
             onClick={() => onMove(target)}
             aria-label={`Move "${item.title}" to ${target}`}
           >
-            → {target}
+            {COLUMN_ORDER[target] < COLUMN_ORDER[item.currentClassification] ? "←" : "→"} {target}
           </button>
         ))}
       </div>
