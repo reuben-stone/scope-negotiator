@@ -13,7 +13,7 @@
 
 <p align="center">
   <a href="https://www.scopenegotiator.com/" target="_blank" rel="noopener noreferrer">
-    <img src="public/demo-button.png" alt="Open Live Demo" width="320" />
+    <img src="public/demo-button.png" alt="Open Live Demo" width="220" />
   </a>
 </p>
 
