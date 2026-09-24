@@ -20,9 +20,30 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Scope Negotiator",
+  title: "Scope Negotiator — Product Scoping System",
   description:
-    "Turn ambitious product ideas into credible, human-approved scope.",
+    "Turn ambitious product ideas and feature requests into credible, human-approved scope. AI proposes. You decide.",
+  openGraph: {
+    title: "Scope Negotiator",
+    description:
+      "Turn ambitious product ideas into credible, human-approved scope. AI proposes. You decide.",
+    type: "website",
+    images: [
+      {
+        url: "/og.png",
+        width: 1200,
+        height: 630,
+        alt: "Scope Negotiator — Product Scoping System",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Scope Negotiator",
+    description:
+      "Turn ambitious product ideas into credible, human-approved scope. AI proposes. You decide.",
+    images: ["/og.png"],
+  },
 };
 
 export default function RootLayout({
