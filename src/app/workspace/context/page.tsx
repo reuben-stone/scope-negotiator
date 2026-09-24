@@ -1,19 +1,19 @@
-import styles from "../workspace.module.css";
+"use client";
+
+import { WorkspaceContextList } from "@/components/workspace/WorkspaceContextList";
 
 export default function ProductContextPage() {
   return (
-    <>
-      <h1 className={styles.pageHeading}>Product Context</h1>
-      <p className={styles.pageDescription}>
-        Persistent product information that carries across scoping sessions.
-        Prevents re-entering the same context for every new feature.
-      </p>
-      <div className={styles.emptyState}>
-        <span className={styles.emptyText}>No products saved</span>
-        <button type="button" className={styles.emptyAction}>
-          + Add Product →
-        </button>
-      </div>
-    </>
+    <WorkspaceContextList
+      type="product_context"
+      heading="Product Context"
+      description="Persistent product information that carries across scoping sessions. When you start a New Feature scope, you can select a saved product instead of re-entering context."
+      emptyText="No products saved"
+      addLabel="+ Add Product →"
+      titleLabel="Product Name"
+      titlePlaceholder="e.g. Scope Negotiator"
+      contentLabel="Product Context"
+      contentPlaceholder="What this product is, who uses it, key technical details, existing architecture..."
+    />
   );
 }

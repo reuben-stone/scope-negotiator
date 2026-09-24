@@ -1,4 +1,3 @@
-import { useRouter } from "next/navigation";
 import type { InsightCategory, Insight } from "@/types/domain";
 import { useWorkflow } from "@/state/context";
 import { Button } from "@/components/shared/Button";
@@ -16,7 +15,6 @@ const CATEGORIES: {
 ];
 
 export function UnderstandScreen() {
-  const router = useRouter();
   const { state, dispatch } = useWorkflow();
   const insights = state.analysis?.insights ?? [];
 
@@ -25,21 +23,13 @@ export function UnderstandScreen() {
     items: insights.filter((i) => i.category === cat.key),
   }));
 
-  function handleProceed() {
-    dispatch({ type: "PROCEED_TO_CLARIFY" });
-    router.push("/scope/new/clarify");
-  }
-
   return (
     <div className={styles.screen}>
       <div className={styles.localNav}>
         <button
           type="button"
           className={styles.backLink}
-          onClick={() => {
-            dispatch({ type: "BACK_TO_CONTEXT" });
-            router.push("/scope/new/context");
-          }}
+          onClick={() => dispatch({ type: "BACK_TO_CONTEXT" })}
         >
           ← Back
         </button>
@@ -86,7 +76,7 @@ export function UnderstandScreen() {
       </div>
 
       <div className={styles.actions}>
-        <Button variant="primary" onClick={handleProceed}>
+        <Button variant="primary" onClick={() => dispatch({ type: "PROCEED_TO_CLARIFY" })}>
           Continue →
         </Button>
       </div>

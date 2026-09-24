@@ -1,19 +1,20 @@
-import styles from "../workspace.module.css";
+"use client";
+
+import { WorkspaceContextList } from "@/components/workspace/WorkspaceContextList";
 
 export default function MemoryPage() {
   return (
-    <>
-      <h1 className={styles.pageHeading}>Memory</h1>
-      <p className={styles.pageDescription}>
-        Human-approved memories that Scope Negotiator may reuse when relevant.
-        Every memory here was explicitly approved by you.
-      </p>
-      <div className={styles.emptyState}>
-        <span className={styles.emptyText}>No approved memories</span>
-        <span className={styles.emptyText}>
-          Memories are proposed after locking scope and require your approval
-        </span>
-      </div>
-    </>
+    <WorkspaceContextList
+      type="memory"
+      heading="Memory"
+      description="Human-approved memories that carry across scoping sessions. Every memory here was explicitly approved by you. Memories are proposed after locking scope."
+      emptyText="No approved memories"
+      addLabel="+ Add Memory →"
+      titleLabel="Memory"
+      titlePlaceholder="e.g. Customer data modifications require confirmation"
+      contentLabel="Detail"
+      contentPlaceholder="The constraint, preference or decision to remember for future scopes..."
+      deleteLabel="Forget"
+    />
   );
 }

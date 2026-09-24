@@ -1,4 +1,4 @@
-import type { ScopeContext, ScopeAnalysis } from "@/types/domain";
+import type { ScopeContext, ScopeAnalysis, LockedScope } from "@/types/domain";
 
 const SYSTEM_RULES = `You are a scope analyst for software product development.
 
@@ -25,19 +25,28 @@ Return up to 10 insights total. Return 0-3 clarification questions, only where t
 }
 
 export function analyzeUserPrompt(context: ScopeContext): string {
-  const lines: string[] = [
-    `WORK TYPE: ${context.workType}`,
-    `BRIEF: ${context.brief}`,
-    `TEAM / CAPACITY: ${context.team}`,
-    `TIMEFRAME: ${context.timeframe}`,
-  ];
+  const sections: string[] = [];
+
+  sections.push(`<work_type>${context.workType}</work_type>`);
+
   if (context.productContext) {
-    lines.push(`EXISTING PRODUCT CONTEXT: ${context.productContext}`);
+    sections.push(`<product_context>\n${context.productContext}\n</product_context>`);
   }
+
+  sections.push(`<current_request>\n${context.brief}\n</current_request>`);
+  sections.push(`<team_context>\n${context.team}\n</team_context>`);
+  sections.push(`<timeframe>${context.timeframe}</timeframe>`);
+
   if (context.constraints) {
-    lines.push(`CONSTRAINTS: ${context.constraints}`);
+    sections.push(`<constraints>\n${context.constraints}\n</constraints>`);
   }
-  return lines.join("\n");
+
+  if (context.approvedMemory && context.approvedMemory.length > 0) {
+    const memoryLines = context.approvedMemory.map((m) => `- ${m}`).join("\n");
+    sections.push(`<approved_memory>\nThe following are human-approved constraints and preferences from previous scoping decisions. Treat them as authoritative context.\n${memoryLines}\n</approved_memory>`);
+  }
+
+  return sections.join("\n\n");
 }
 
 export function proposeSystemPrompt(): string {
@@ -78,20 +87,23 @@ export function proposeUserPrompt(
 ): string {
   const sections: string[] = [];
 
-  // Original context
-  const contextLines = [
-    `WORK TYPE: ${context.workType}`,
-    `BRIEF: ${context.brief}`,
-    `TEAM / CAPACITY: ${context.team}`,
-    `TIMEFRAME: ${context.timeframe}`,
-  ];
+  // Original context — structured sections
+  const contextParts: string[] = [];
+  contextParts.push(`<work_type>${context.workType}</work_type>`);
   if (context.productContext) {
-    contextLines.push(`EXISTING PRODUCT CONTEXT: ${context.productContext}`);
+    contextParts.push(`<product_context>\n${context.productContext}\n</product_context>`);
   }
+  contextParts.push(`<current_request>\n${context.brief}\n</current_request>`);
+  contextParts.push(`<team_context>\n${context.team}\n</team_context>`);
+  contextParts.push(`<timeframe>${context.timeframe}</timeframe>`);
   if (context.constraints) {
-    contextLines.push(`CONSTRAINTS: ${context.constraints}`);
+    contextParts.push(`<constraints>\n${context.constraints}\n</constraints>`);
   }
-  sections.push(`--- ORIGINAL CONTEXT ---\n${contextLines.join("\n")}`);
+  if (context.approvedMemory && context.approvedMemory.length > 0) {
+    const memoryLines = context.approvedMemory.map((m) => `- ${m}`).join("\n");
+    contextParts.push(`<approved_memory>\nHuman-approved constraints and preferences from previous scoping decisions. Treat as authoritative.\n${memoryLines}\n</approved_memory>`);
+  }
+  sections.push(`--- ORIGINAL CONTEXT ---\n${contextParts.join("\n\n")}`);
 
   // Analysis
   const insightLines = analysis.insights.map(
@@ -108,6 +120,65 @@ export function proposeUserPrompt(
     sections.push(`--- HUMAN CLARIFICATIONS ---\n${clarLines.join("\n\n")}`);
   } else {
     sections.push("--- HUMAN CLARIFICATIONS ---\nNo clarification questions were asked.");
+  }
+
+  return sections.join("\n\n");
+}
+
+export function memorySystemPrompt(): string {
+  return `${SYSTEM_RULES}
+
+You will receive a completed scope negotiation outcome: the original context, final scope items, human overrides, and decisions made.
+
+Propose 0-3 short, reusable memories that would be genuinely useful in future scoping sessions for this product/team.
+
+Good memories are:
+- Constraints or preferences that apply across multiple scopes
+- Architectural or process decisions worth remembering
+- Trade-offs the team has deliberately made
+
+Bad memories are:
+- Summaries of this specific scope
+- Obvious facts already in the product context
+- Temporary decisions unlikely to carry forward
+- Anything already covered by existing approved memory
+
+Each memory should be a single clear statement.
+
+If nothing from this scope is genuinely worth remembering for future sessions, return an empty array. Do not manufacture memories.`;
+}
+
+export function memoryUserPrompt(locked: LockedScope): string {
+  const { context, proposal } = locked;
+  const overrides = proposal.items.filter((i) => i.userOverride);
+  const shipped = proposal.items.filter((i) => i.currentClassification === "ship");
+  const cut = proposal.items.filter((i) => i.currentClassification === "cut");
+
+  const sections: string[] = [];
+
+  sections.push(`WORK TYPE: ${context.workType}`);
+  sections.push(`BRIEF: ${context.brief}`);
+  if (context.productContext) {
+    sections.push(`PRODUCT CONTEXT: ${context.productContext}`);
+  }
+  sections.push(`TEAM: ${context.team}`);
+  sections.push(`TIMEFRAME: ${context.timeframe}`);
+  if (context.constraints) {
+    sections.push(`CONSTRAINTS: ${context.constraints}`);
+  }
+  sections.push(`GOAL: ${proposal.goal}`);
+  sections.push(`SHIPPED: ${shipped.map((i) => i.title).join(", ")}`);
+  sections.push(`CUT: ${cut.map((i) => i.title).join(", ")}`);
+
+  if (overrides.length > 0) {
+    const overrideLines = overrides.map(
+      (i) => `${i.title}: AI proposed ${i.recommendedClassification} → human decided ${i.currentClassification}`
+    );
+    sections.push(`HUMAN OVERRIDES:\n${overrideLines.join("\n")}`);
+  }
+
+  if (context.approvedMemory && context.approvedMemory.length > 0) {
+    sections.push(`EXISTING APPROVED MEMORY:\n${context.approvedMemory.map((m) => `- ${m}`).join("\n")}`);
   }
 
   return sections.join("\n\n");

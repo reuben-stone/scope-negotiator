@@ -45,6 +45,18 @@ export const ProposalResponseSchema = z.object({
 
 export type ProposalResponse = z.infer<typeof ProposalResponseSchema>;
 
+export const MemoryProposalResponseSchema = z.object({
+  memories: z
+    .array(
+      z.object({
+        content: z.string().min(1),
+      })
+    )
+    .max(3),
+});
+
+export type MemoryProposalResponse = z.infer<typeof MemoryProposalResponseSchema>;
+
 // ── API request body schemas ──
 // Validate incoming client payloads before reaching the provider.
 
@@ -55,6 +67,11 @@ export const AnalyzeRequestSchema = z.object({
   timeframe: z.string().min(1),
   productContext: z.string().optional(),
   constraints: z.string().optional(),
+  approvedMemory: z.array(z.string()).optional(),
+  sourceProductId: z.string().optional(),
+  sourceProductName: z.string().optional(),
+  sourceTeamId: z.string().optional(),
+  sourceTeamName: z.string().optional(),
 });
 
 const ClarifyingQuestionSchema = z.object({
@@ -78,6 +95,11 @@ export const ProposeRequestSchema = z.object({
     timeframe: z.string().min(1),
     productContext: z.string().optional(),
     constraints: z.string().optional(),
+    approvedMemory: z.array(z.string()).optional(),
+    sourceProductId: z.string().optional(),
+    sourceProductName: z.string().optional(),
+    sourceTeamId: z.string().optional(),
+    sourceTeamName: z.string().optional(),
   }),
   analysis: z.object({
     insights: z.array(InsightSchema),

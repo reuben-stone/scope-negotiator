@@ -66,7 +66,7 @@ export function LandingPage() {
             aria-label="Work type"
           >
             <Link
-              href="/scope/new/context"
+              href="/scope/new"
               prefetch={true}
               className={styles.modeCard}
               onClick={() => handleSelectMode("product")}
@@ -81,7 +81,7 @@ export function LandingPage() {
               </span>
             </Link>
             <Link
-              href="/scope/new/context"
+              href="/scope/new"
               prefetch={true}
               className={styles.modeCard}
               onClick={() => handleSelectMode("feature")}

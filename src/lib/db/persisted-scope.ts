@@ -13,6 +13,11 @@ const ScopeContextSchema = z.object({
   timeframe: z.string(),
   productContext: z.string().optional(),
   constraints: z.string().optional(),
+  approvedMemory: z.array(z.string()).optional(),
+  sourceProductId: z.string().optional(),
+  sourceProductName: z.string().optional(),
+  sourceTeamId: z.string().optional(),
+  sourceTeamName: z.string().optional(),
 });
 
 const InsightSchema = z.object({

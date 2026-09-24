@@ -7,6 +7,7 @@ import type {
 } from "@/types/domain";
 import { CONTEXT_FLOWS, EMPTY_CONTEXT_DRAFT } from "@/types/domain";
 import { useWorkflow } from "@/state/context";
+import { useWorkspaceData, type SavedContext } from "@/state/workspace-data";
 import { Button } from "@/components/shared/Button";
 import { Textarea, TextInput } from "@/components/shared/Input";
 import styles from "./ContextFlow.module.css";
@@ -105,7 +106,7 @@ function isStepValid(step: ContextStep, draft: ContextDraft): boolean {
 
 // Build ScopeContext from draft
 
-function buildScopeContext(draft: ContextDraft): ScopeContext {
+function buildScopeContext(draft: ContextDraft, approvedMemory?: string[]): ScopeContext {
   const mode = draft.mode!;
   return {
     workType: mode,
@@ -119,6 +120,15 @@ function buildScopeContext(draft: ContextDraft): ScopeContext {
     ...(draft.constraints.trim()
       ? { constraints: draft.constraints.trim() }
       : {}),
+    ...(approvedMemory && approvedMemory.length > 0
+      ? { approvedMemory }
+      : {}),
+    ...(draft.sourceProductId
+      ? { sourceProductId: draft.sourceProductId, sourceProductName: draft.sourceProductName ?? undefined }
+      : {}),
+    ...(draft.sourceTeamId
+      ? { sourceTeamId: draft.sourceTeamId, sourceTeamName: draft.sourceTeamName ?? undefined }
+      : {}),
   };
 }
 
@@ -131,6 +141,7 @@ type Props = {
 
 export function ContextFlow({ mode, onChangeType }: Props) {
   const { submitContext } = useWorkflow();
+  const { products: savedProducts, teams: savedTeams, memories: approvedMemories } = useWorkspaceData();
   const [draft, dispatchDraft] = useReducer(draftReducer, {
     ...EMPTY_CONTEXT_DRAFT,
     mode,
@@ -167,7 +178,7 @@ export function ContextFlow({ mode, onChangeType }: Props) {
     setValidationError(null);
 
     if (isLast) {
-      submitContext(buildScopeContext(draft));
+      submitContext(buildScopeContext(draft, approvedMemories));
     } else {
       setStepIndex(stepIndex + 1);
     }
@@ -179,16 +190,17 @@ export function ContextFlow({ mode, onChangeType }: Props) {
     submitContext,
     setStepIndex,
     setValidationError,
+    approvedMemories,
   ]);
 
   const handleSkip = useCallback(() => {
     setValidationError(null);
     if (isLast) {
-      submitContext(buildScopeContext(draft));
+      submitContext(buildScopeContext(draft, approvedMemories));
     } else {
       setStepIndex(stepIndex + 1);
     }
-  }, [isLast, stepIndex, draft, submitContext, setStepIndex, setValidationError]);
+  }, [isLast, stepIndex, draft, submitContext, setStepIndex, setValidationError, approvedMemories]);
 
   const updateField = useCallback(
     (field: keyof ContextDraft, value: string) => {
@@ -249,6 +261,18 @@ export function ContextFlow({ mode, onChangeType }: Props) {
             step={currentStep}
             draft={draft}
             onUpdate={updateField}
+            onSelectProduct={(id, name, content) => {
+              dispatchDraft({ type: "SET_FIELD", field: "sourceProductId", value: id });
+              dispatchDraft({ type: "SET_FIELD", field: "sourceProductName", value: name });
+              dispatchDraft({ type: "SET_FIELD", field: "existingProduct", value: content });
+            }}
+            onSelectTeam={(id, name, content) => {
+              dispatchDraft({ type: "SET_FIELD", field: "sourceTeamId", value: id });
+              dispatchDraft({ type: "SET_FIELD", field: "sourceTeamName", value: name });
+              dispatchDraft({ type: "SET_FIELD", field: "team", value: content });
+            }}
+            savedProducts={savedProducts}
+            savedTeams={savedTeams}
             validationError={validationError}
           />
         </div>
@@ -278,20 +302,77 @@ function StepInput({
   step,
   draft,
   onUpdate,
+  onSelectProduct,
+  onSelectTeam,
+  savedProducts,
+  savedTeams,
   validationError,
 }: {
   step: ContextStep;
   draft: ContextDraft;
   onUpdate: (field: keyof ContextDraft, value: string) => void;
+  onSelectProduct: (id: string, name: string, content: string) => void;
+  onSelectTeam: (id: string, name: string, content: string) => void;
+  savedProducts: SavedContext[];
+  savedTeams: SavedContext[];
   validationError: string | null;
 }) {
+  // Existing product step — with saved product selector
+  if (step === "existing-product") {
+    return (
+      <div className={styles.inputGroup}>
+        {savedProducts.length > 0 && (
+          <div className={styles.selectorGroup}>
+            <label htmlFor="product-select" className={styles.selectorLabel}>
+              Saved Product
+            </label>
+            <select
+              id="product-select"
+              className={styles.selector}
+              value={draft.sourceProductId ?? ""}
+              onChange={(e) => {
+                const selected = savedProducts.find((p) => p.id === e.target.value);
+                if (selected) {
+                  onSelectProduct(selected.id, selected.title ?? "", selected.content);
+                } else {
+                  onSelectProduct("", "", "");
+                }
+              }}
+            >
+              <option value="">Enter manually</option>
+              {savedProducts.map((p) => (
+                <option key={p.id} value={p.id}>{p.title}</option>
+              ))}
+            </select>
+          </div>
+        )}
+        <label htmlFor="input-existing-product" className={styles.selectorLabel}>
+          Product Context
+        </label>
+        <Textarea
+          id="input-existing-product"
+          large
+          value={draft.existingProduct}
+          onChange={(e) => onUpdate("existingProduct", e.target.value)}
+          placeholder="Product, users, current behaviour, relevant technical context..."
+          aria-invalid={validationError ? true : undefined}
+          aria-describedby={validationError ? "error-existing-product" : undefined}
+        />
+        {validationError && (
+          <p id="error-existing-product" className={styles.error} role="alert">
+            {validationError}
+          </p>
+        )}
+      </div>
+    );
+  }
+
+  // Other single-field steps (product-idea, change-request)
   const singleFieldKey = draftKeyForStep(step);
 
   if (singleFieldKey) {
     const value = draft[singleFieldKey] as string;
     const placeholders: Record<string, string> = {
-      existingProduct:
-        "Product, users, current behaviour, relevant technical context...",
       productIdea: "The idea, the problem, intended users, desired outcome...",
       changeRequest: "Describe the feature or change...",
     };
@@ -327,6 +408,31 @@ function StepInput({
             Team / Capacity
           </label>
           <p className={styles.fieldHint}>Who can actually work on this?</p>
+          {savedTeams.length > 0 && (
+            <div className={styles.selectorGroup}>
+              <label htmlFor="team-select" className={styles.selectorLabel}>
+                Using
+              </label>
+              <select
+                id="team-select"
+                className={styles.selector}
+                value={draft.sourceTeamId ?? ""}
+                onChange={(e) => {
+                  const selected = savedTeams.find((t) => t.id === e.target.value);
+                  if (selected) {
+                    onSelectTeam(selected.id, selected.title ?? "", selected.content);
+                  } else {
+                    onSelectTeam("", "", "");
+                  }
+                }}
+              >
+                <option value="">Enter manually</option>
+                {savedTeams.map((t) => (
+                  <option key={t.id} value={t.id}>{t.title}</option>
+                ))}
+              </select>
+            </div>
+          )}
           <Textarea
             id="input-team"
             value={draft.team}

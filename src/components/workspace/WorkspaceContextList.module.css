@@ -1,0 +1,245 @@
+.pageHeading {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  color: var(--color-ink);
+  margin: 0 0 var(--space-2) 0;
+}
+
+.pageDescription {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  color: var(--color-muted);
+  line-height: 1.5;
+  margin: 0 0 var(--space-6) 0;
+  max-width: 560px;
+}
+
+/* ── List ── */
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border: 2px solid var(--color-ink);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: var(--space-4);
+}
+
+.item {
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.item:last-child {
+  border-bottom: none;
+}
+
+.itemHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  margin-bottom: var(--space-1);
+}
+
+.itemTitle {
+  font-family: var(--font-display);
+  font-size: var(--text-base);
+  font-weight: 700;
+  color: var(--color-ink);
+}
+
+.itemActions {
+  display: flex;
+  gap: var(--space-2);
+  flex-shrink: 0;
+}
+
+.editButton,
+.deleteButton {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: var(--space-1) 0;
+  transition: color var(--motion-fast);
+}
+
+.editButton {
+  color: var(--color-muted);
+}
+
+.editButton:hover {
+  color: var(--color-ink);
+}
+
+.deleteButton {
+  color: var(--color-accent);
+}
+
+.deleteButton:hover {
+  opacity: 0.7;
+}
+
+.itemContent {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--color-muted);
+  line-height: 1.5;
+  margin: 0;
+  white-space: pre-line;
+}
+
+/* ── Empty state ── */
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-5) var(--space-4);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius);
+  border-style: dashed;
+}
+
+.emptyText {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+/* ── Add button ── */
+
+.addButton {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-ink);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: color var(--motion-fast);
+}
+
+.addButton:hover {
+  color: var(--color-accent);
+}
+
+/* ── Forms ── */
+
+.createForm,
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.createForm {
+  border: 2px solid var(--color-ink);
+  border-radius: var(--radius);
+  padding: var(--space-4);
+}
+
+.formLabel {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-ink);
+}
+
+.formInput {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  padding: var(--space-2) var(--space-3);
+  border: 2px solid var(--color-ink);
+  border-radius: var(--radius);
+  background: white;
+  color: var(--color-ink);
+  outline: none;
+}
+
+.formInput:focus {
+  border-color: var(--color-accent);
+}
+
+.formTextarea {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  padding: var(--space-2) var(--space-3);
+  border: 2px solid var(--color-ink);
+  border-radius: var(--radius);
+  background: white;
+  color: var(--color-ink);
+  resize: vertical;
+  outline: none;
+  line-height: 1.5;
+}
+
+.formTextarea:focus {
+  border-color: var(--color-accent);
+}
+
+.formActions {
+  display: flex;
+  gap: var(--space-3);
+  justify-content: flex-end;
+  margin-top: var(--space-1);
+}
+
+.cancelButton {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: var(--space-2) var(--space-3);
+}
+
+.cancelButton:hover {
+  color: var(--color-ink);
+}
+
+.saveButton {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: white;
+  background: var(--color-ink);
+  border: 2px solid var(--color-ink);
+  border-radius: var(--radius);
+  cursor: pointer;
+  padding: var(--space-2) var(--space-3);
+  transition: opacity var(--motion-fast);
+}
+
+.saveButton:hover {
+  opacity: 0.85;
+}
+
+.saveButton:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}

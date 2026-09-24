@@ -7,6 +7,12 @@ export type ScopeContext = {
   team: string;
   timeframe: string;
   constraints?: string;
+  approvedMemory?: string[];
+  // Snapshot source tracking (for display, not ownership)
+  sourceProductId?: string;
+  sourceProductName?: string;
+  sourceTeamId?: string;
+  sourceTeamName?: string;
 };
 
 export type InsightCategory = "known" | "assumed" | "unknown" | "risk";
@@ -78,6 +84,10 @@ export type ContextDraft = {
   team: string;
   timeframe: string;
   constraints: string;
+  sourceProductId: string | null;
+  sourceProductName: string | null;
+  sourceTeamId: string | null;
+  sourceTeamName: string | null;
 };
 
 export const EMPTY_CONTEXT_DRAFT: ContextDraft = {
@@ -88,4 +98,8 @@ export const EMPTY_CONTEXT_DRAFT: ContextDraft = {
   team: "",
   timeframe: "",
   constraints: "",
+  sourceProductId: null,
+  sourceProductName: null,
+  sourceTeamId: null,
+  sourceTeamName: null,
 };

@@ -384,6 +384,136 @@
   border: 0;
 }
 
+/* ── Memory proposals ── */
+
+.memorySection {
+  border-top: 1px solid var(--color-border);
+  padding: var(--space-4) 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.memorySectionLabel {
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-ink);
+  margin: 0;
+}
+
+.memoryLoading {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  margin: 0;
+}
+
+.memoryCard {
+  border: 2px solid var(--color-ink);
+  border-radius: var(--radius);
+  padding: var(--space-3);
+}
+
+.memoryContent {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  line-height: 1.5;
+  color: var(--color-ink);
+  margin: 0 0 var(--space-2) 0;
+}
+
+.memoryEdit {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  line-height: 1.5;
+  color: var(--color-ink);
+  width: 100%;
+  padding: var(--space-2);
+  border: 2px solid var(--color-ink);
+  border-radius: var(--radius);
+  background: white;
+  resize: vertical;
+  outline: none;
+  margin-bottom: var(--space-2);
+}
+
+.memoryEdit:focus {
+  border-color: var(--color-accent);
+}
+
+.memoryActions {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.memoryKeep,
+.memoryEditBtn,
+.memoryDismiss {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: var(--space-1) 0;
+  transition: color var(--motion-fast);
+}
+
+.memoryKeep {
+  color: var(--color-ink);
+}
+
+.memoryKeep:hover {
+  color: var(--color-accent);
+}
+
+.memoryEditBtn {
+  color: var(--color-muted);
+}
+
+.memoryEditBtn:hover {
+  color: var(--color-ink);
+}
+
+.memoryDismiss {
+  color: var(--color-muted);
+}
+
+.memoryDismiss:hover {
+  color: var(--color-accent);
+}
+
+.memoryKept {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-bg-hover);
+}
+
+.memoryKeptLabel {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  display: block;
+  margin-bottom: var(--space-1);
+}
+
+.memoryKept .memoryContent {
+  margin: 0;
+  color: var(--color-muted);
+}
+
 /* ── Footer ── */
 
 .footerOuter {

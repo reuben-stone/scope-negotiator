@@ -1,11 +1,9 @@
-import { useRouter } from "next/navigation";
 import { useWorkflow } from "@/state/context";
 import { Button } from "@/components/shared/Button";
 import { Textarea } from "@/components/shared/Input";
 import styles from "./ClarifyScreen.module.css";
 
 export function ClarifyScreen() {
-  const router = useRouter();
   const { state, dispatch, submitAnswersAndNegotiate } = useWorkflow();
   const questions = state.analysis?.questions ?? [];
 
@@ -18,10 +16,7 @@ export function ClarifyScreen() {
         <button
           type="button"
           className={styles.backLink}
-          onClick={() => {
-            dispatch({ type: "BACK_TO_UNDERSTAND" });
-            router.push("/scope/new/understand");
-          }}
+          onClick={() => dispatch({ type: "BACK_TO_UNDERSTAND" })}
         >
           ← Back
         </button>

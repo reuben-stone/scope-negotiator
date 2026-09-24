@@ -1,30 +1,33 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import type { WorkType } from "@/types/domain";
 import { useRouter } from "next/navigation";
 import { useWorkflow } from "@/state/context";
 import { ContextFlow } from "@/components/context-flow/ContextFlow";
 
-function readMode(): WorkType | null {
-  if (typeof window === "undefined") return null;
-  const stored = sessionStorage.getItem("scope-negotiator:mode");
-  if (stored === "product" || stored === "feature") return stored;
-  return null;
-}
-
 export function ContextScreen() {
   const router = useRouter();
   const { state } = useWorkflow();
+  const [clientMode, setClientMode] = useState<WorkType | null>(null);
+  const [checked, setChecked] = useState(false);
 
-  // Derive mode: existing workflow context > sessionStorage > redirect
-  const mode = state.scopeContext?.workType ?? readMode();
+  // Read sessionStorage after mount to avoid hydration mismatch
+  useEffect(() => {
+    const stored = sessionStorage.getItem("scope-negotiator:mode");
+    if (stored === "product" || stored === "feature") {
+      setClientMode(stored);
+    }
+    setChecked(true);
+  }, []);
+
+  const mode = state.scopeContext?.workType ?? clientMode;
 
   useEffect(() => {
-    if (!mode) {
+    if (checked && !mode) {
       router.replace("/");
     }
-  }, [mode, router]);
+  }, [checked, mode, router]);
 
-  if (!mode) return null;
+  if (!checked || !mode) return null;
 
   return (
     <ContextFlow

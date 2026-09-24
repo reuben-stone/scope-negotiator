@@ -1,19 +1,19 @@
-import styles from "../workspace.module.css";
+"use client";
+
+import { WorkspaceContextList } from "@/components/workspace/WorkspaceContextList";
 
 export default function TeamPage() {
   return (
-    <>
-      <h1 className={styles.pageHeading}>Team</h1>
-      <p className={styles.pageDescription}>
-        Default team capacity and delivery constraints. Applied automatically
-        when starting new scopes, overridable per-scope.
-      </p>
-      <div className={styles.emptyState}>
-        <span className={styles.emptyText}>No team defaults configured</span>
-        <button type="button" className={styles.emptyAction}>
-          + Set Team Defaults →
-        </button>
-      </div>
-    </>
+    <WorkspaceContextList
+      type="team"
+      heading="Team"
+      description="Default team capacity and delivery constraints. When starting a new scope, saved team context is available as a starting point — editable per-scope."
+      emptyText="No team defaults configured"
+      addLabel="+ Add Team →"
+      titleLabel="Team Name"
+      titlePlaceholder="e.g. Product Team"
+      contentLabel="Team / Capacity"
+      contentPlaceholder="Who can work on this, availability, capabilities, constraints..."
+    />
   );
 }

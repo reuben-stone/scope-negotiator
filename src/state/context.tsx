@@ -97,8 +97,9 @@ export function WorkflowProvider({ children }: { children: ReactNode }) {
     savedScopeIdRef.current = loadSavedScopeId();
   }, []);
 
-  // Persist state on every change
+  // Persist state on every change (skip while loading to avoid saving incomplete states)
   useEffect(() => {
+    if (state.loading) return;
     saveState(state, savedScopeIdRef.current);
   }, [state]);
 
