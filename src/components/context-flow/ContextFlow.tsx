@@ -9,6 +9,7 @@ import { CONTEXT_FLOWS, EMPTY_CONTEXT_DRAFT } from "@/types/domain";
 import { useWorkflow } from "@/state/context";
 import { Button } from "@/components/shared/Button";
 import { Textarea, TextInput } from "@/components/shared/Input";
+import { AiStatus } from "@/components/shared/AiStatus";
 import styles from "./ContextFlow.module.css";
 
 // Step metadata
@@ -272,8 +273,9 @@ export function ContextFlow({ mode, onChangeType }: Props) {
             System&ensp;|&ensp;V1.0
           </span>
           <span>
-            Context&ensp;|&ensp;User Input&ensp;|&ensp;
             {String(stepIndex + 1).padStart(2, "0")} / {String(totalSteps).padStart(2, "0")}
+            &ensp;|&ensp;
+            <AiStatus />
           </span>
         </footer>
       </div>

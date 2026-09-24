@@ -56,6 +56,13 @@ export async function POST(request: Request) {
       err instanceof Error ? err.message : "Unknown provider error";
     console.error("[analyze] Provider error:", message);
 
+    if (message.includes("ANTHROPIC_API_KEY")) {
+      return NextResponse.json(
+        { error: "AI provider is not configured. Set ANTHROPIC_API_KEY in .env.local." },
+        { status: 503 }
+      );
+    }
+
     const isTimeout =
       message.includes("timeout") || message.includes("ETIMEDOUT");
 

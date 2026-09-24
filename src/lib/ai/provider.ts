@@ -1,7 +1,12 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { z, toJSONSchema } from "zod";
 
-const client = new Anthropic();
+function getClient(): Anthropic {
+  if (!process.env.ANTHROPIC_API_KEY) {
+    throw new Error("ANTHROPIC_API_KEY is not configured");
+  }
+  return new Anthropic();
+}
 
 type ModelCallParams = {
   system: string;
@@ -17,6 +22,7 @@ type ModelCallParams = {
 export async function callModel<T>(
   params: ModelCallParams & { schema: z.ZodType<T> }
 ): Promise<T> {
+  const client = getClient();
   const jsonSchema = toJSONSchema(params.schema);
 
   const response = await client.messages.create({
