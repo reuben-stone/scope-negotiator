@@ -23,6 +23,14 @@ export function WorkspaceSidebar() {
     setMenuOpen(false);
   }, [pathname]);
 
+  // Lock scroll when menu is open
+  useEffect(() => {
+    if (menuOpen) {
+      document.body.style.overflow = "hidden";
+      return () => { document.body.style.overflow = ""; };
+    }
+  }, [menuOpen]);
+
   return (
     <aside className={styles.sidebar}>
       {/* ── Desktop: full sidebar (unchanged) ── */}
