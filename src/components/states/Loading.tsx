@@ -59,7 +59,7 @@ export function Loading({
       <div className={styles.footerOuter}>
         <footer className={styles.footer}>
           <span>
-            Scope Negotiator<sup>&reg;</sup>&ensp;|&ensp;Product Scoping
+            Scope Negotiator&ensp;|&ensp;Product Scoping
             System&ensp;|&ensp;V1.0
           </span>
           <span>Processing</span>

@@ -106,7 +106,7 @@ export function ContextScreen() {
       <div className={styles.footerOuter}>
         <footer className={styles.footer}>
           <span className={styles.footerLeft}>
-            Scope Negotiator<sup>&reg;</sup>&ensp;|&ensp;Product Scoping
+            Scope Negotiator&ensp;|&ensp;Product Scoping
             System&ensp;|&ensp;V1.0
           </span>
           <span className={styles.footerRight}>

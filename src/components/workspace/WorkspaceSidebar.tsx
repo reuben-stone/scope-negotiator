@@ -20,7 +20,7 @@ export function WorkspaceSidebar() {
     <aside className={styles.sidebar}>
       <div className={styles.header}>
         <Link href="/" className={styles.brand}>
-          SCOPE NEGOTIATOR<span className={styles.reg}>&reg;</span>
+          SCOPE NEGOTIATOR
         </Link>
         <p className={styles.workspaceLabel}>Workspace</p>
       </div>

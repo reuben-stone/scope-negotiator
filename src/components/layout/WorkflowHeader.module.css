@@ -27,11 +27,6 @@
   color: var(--color-accent);
 }
 
-.reg {
-  font-size: 0.7em;
-  vertical-align: super;
-}
-
 /* ── Desktop ── */
 
 .desktopInner {

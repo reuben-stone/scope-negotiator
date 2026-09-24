@@ -27,7 +27,7 @@ export function WorkflowHeader({ currentStage, onReset }: Props) {
           className={styles.brand}
           onClick={onReset}
         >
-          SCOPE NEGOTIATOR<span className={styles.reg}>&reg;</span>
+          SCOPE NEGOTIATOR
         </button>
         <nav className={styles.stages} aria-label="Workflow progress">
           {STAGES.map((stage, i) => {
@@ -60,7 +60,7 @@ export function WorkflowHeader({ currentStage, onReset }: Props) {
             className={styles.brand}
             onClick={onReset}
           >
-            SCOPE NEGOTIATOR<span className={styles.reg}>&reg;</span>
+            SCOPE NEGOTIATOR
           </button>
           <span className={styles.mobileCounter}>
             {String(currentIndex + 1).padStart(2, "0")} / {String(STAGES.length).padStart(2, "0")}

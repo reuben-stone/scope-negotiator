@@ -289,7 +289,7 @@ export function LockScreen() {
       <div className={styles.footerOuter}>
         <footer className={styles.footer}>
           <span>
-            Scope Negotiator<sup>&reg;</sup>&ensp;|&ensp;Product Scoping
+            Scope Negotiator&ensp;|&ensp;Product Scoping
             System&ensp;|&ensp;V1.0
           </span>
           <span>Lock&ensp;|&ensp;Scope Locked&ensp;|&ensp;05 / 05</span>

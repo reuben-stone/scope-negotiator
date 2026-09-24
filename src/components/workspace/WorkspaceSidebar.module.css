@@ -31,10 +31,7 @@
   color: var(--color-accent);
 }
 
-.reg {
-  font-size: 0.7em;
-  vertical-align: super;
-}
+
 
 .workspaceLabel {
   font-family: var(--font-mono);
