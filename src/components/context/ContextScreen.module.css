@@ -210,10 +210,6 @@
 /* ── Auth entry ── */
 
 .authEntry {
-  display: flex;
-  justify-content: flex-end;
-  width: 80%;
-  margin-top: var(--space-6);
 }
 
 .authPrompt {
@@ -300,10 +296,6 @@
     width: 100%;
   }
 
-  .authEntry {
-    width: 100%;
-    justify-content: flex-start;
-  }
 }
 
 @media (max-width: 600px) {

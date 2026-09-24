@@ -34,6 +34,20 @@ export function ContextScreen() {
               feature requests into credible, human-approved scope.
             </p>
             <p className={styles.heroPrinciple}>AI Proposes. You Decide.</p>
+            <div className={styles.authEntry}>
+              {isAuthenticated ? (
+                <a href="/workspace" className={styles.authLink}>
+                  Workspace →
+                </a>
+              ) : (
+                <span className={styles.authPrompt}>
+                  Already have a workspace?{" "}
+                  <a href="/login" className={styles.authLink}>
+                    Sign In →
+                  </a>
+                </span>
+              )}
+            </div>
           </div>
           <div className={styles.heroRight}>
             <ScopeNegotiatorMark />
@@ -84,21 +98,6 @@ export function ContextScreen() {
                 →
               </span>
             </button>
-          </div>
-
-          <div className={styles.authEntry}>
-            {isAuthenticated ? (
-              <a href="/workspace" className={styles.authLink}>
-                Workspace →
-              </a>
-            ) : (
-              <span className={styles.authPrompt}>
-                Already have a workspace?{" "}
-                <a href="/login" className={styles.authLink}>
-                  Sign In →
-                </a>
-              </span>
-            )}
           </div>
         </div>
       </div>
