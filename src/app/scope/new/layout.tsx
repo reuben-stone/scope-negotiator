@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { WorkflowProvider } from "@/state/context";
+import { ScopeNewProviders } from "./providers";
 import type { ReactNode } from "react";
 
 export const metadata: Metadata = {
@@ -9,5 +9,5 @@ export const metadata: Metadata = {
 };
 
 export default function ScopeNewLayout({ children }: { children: ReactNode }) {
-  return <WorkflowProvider>{children}</WorkflowProvider>;
+  return <ScopeNewProviders>{children}</ScopeNewProviders>;
 }
