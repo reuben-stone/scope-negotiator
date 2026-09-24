@@ -59,6 +59,9 @@ export default function RootLayout({
       className={`${spaceGrotesk.variable} ${inter.variable} ${jetbrainsMono.variable}`}
     >
       <body>
+        <a href="#main-content" className="skip-link">
+          Skip to content
+        </a>
         <Providers>{children}</Providers>
         <Analytics />
       </body>

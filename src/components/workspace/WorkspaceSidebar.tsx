@@ -103,6 +103,7 @@ export function WorkspaceSidebar() {
             onClick={() => setMenuOpen((o) => !o)}
             aria-expanded={menuOpen}
             aria-controls="workspace-mobile-menu"
+            aria-label="Navigation menu"
           >
             {menuOpen ? "Close" : "Menu"}
           </button>

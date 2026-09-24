@@ -110,6 +110,34 @@ body {
   animation: contentEnter var(--motion-standard) var(--motion-ease) both;
 }
 
+/* Skip to content */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  z-index: 9999;
+  padding: 0;
+  background: var(--color-ink);
+  color: white;
+  border-radius: var(--radius);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.skip-link:focus {
+  left: 16px;
+  top: 16px;
+  width: auto;
+  height: auto;
+  overflow: visible;
+  padding: 8px 16px;
+}
+
 /* Selection */
 ::selection {
   background: var(--color-accent);

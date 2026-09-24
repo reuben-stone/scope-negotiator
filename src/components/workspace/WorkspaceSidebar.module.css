@@ -30,6 +30,11 @@
   opacity: 0.7;
 }
 
+.brand:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
 .brandMark {
   height: 40px;
   width: auto;
@@ -72,6 +77,11 @@
   background: var(--color-bg-hover);
 }
 
+.navItem:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
 .navItemActive {
   color: var(--color-ink);
   font-weight: 700;
@@ -111,6 +121,11 @@
   box-shadow: 1px 1px 0 var(--color-ink);
 }
 
+.newScopeLink:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
 .utility {
   margin-top: auto;
   border-top: 1px solid var(--color-border);
@@ -139,6 +154,11 @@
 .signOut:hover {
   color: var(--color-ink);
   background: var(--color-bg-hover);
+}
+
+.signOut:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
 }
 
 /* ── Mobile masthead ── */
@@ -255,6 +275,11 @@
     background: var(--color-bg-hover);
   }
 
+  .mobileMenuItem:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+
   .mobileMenuItemActive {
     color: var(--color-ink);
     font-weight: 700;
@@ -295,5 +320,10 @@
   .mobileMenuSignOut:hover {
     color: var(--color-ink);
     background: var(--color-bg-hover);
+  }
+
+  .mobileMenuSignOut:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
   }
 }

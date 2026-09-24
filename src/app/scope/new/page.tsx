@@ -71,7 +71,7 @@ export default function ScopePage() {
   return (
     <div style={{ display: "flex", flexDirection: "column", minHeight: "100dvh" }}>
       <WorkflowHeader currentStage={state.stage} onReset={handleReset} />
-      <main key={resetKey} style={{ flex: 1, display: "flex", flexDirection: "column" }}>
+      <main id="main-content" key={resetKey} style={{ flex: 1, display: "flex", flexDirection: "column" }}>
         {content}
       </main>
       <WorkflowFooter stage={state.stage} loading={isLoading} error={isError} />

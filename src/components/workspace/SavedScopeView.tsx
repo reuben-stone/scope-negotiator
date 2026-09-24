@@ -1,12 +1,98 @@
 "use client";
 
-import { useState, useCallback, useMemo, useEffect } from "react";
+import { useState, useCallback, useMemo, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import type { PersistedScope } from "@/lib/db/persisted-scope";
 import { generateMarkdown } from "@/utils/markdown";
 import { filterCriteria } from "@/utils/filter-criteria";
 import { Button } from "@/components/shared/Button";
 import styles from "./SavedScopeView.module.css";
+
+function DeleteModal({
+  deleting,
+  onCancel,
+  onDelete,
+}: {
+  deleting: boolean;
+  onCancel: () => void;
+  onDelete: () => void;
+}) {
+  const modalRef = useRef<HTMLDivElement>(null);
+  const cancelRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    cancelRef.current?.focus();
+  }, []);
+
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.key === "Escape") {
+        onCancel();
+        return;
+      }
+      if (e.key === "Tab") {
+        const focusable = modalRef.current?.querySelectorAll<HTMLElement>(
+          'button:not([disabled]), [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        );
+        if (!focusable || focusable.length === 0) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (e.shiftKey) {
+          if (document.activeElement === first) {
+            e.preventDefault();
+            last.focus();
+          }
+        } else {
+          if (document.activeElement === last) {
+            e.preventDefault();
+            first.focus();
+          }
+        }
+      }
+    },
+    [onCancel]
+  );
+
+  return (
+    <div className={styles.modalOverlay} onClick={onCancel}>
+      <div
+        ref={modalRef}
+        className={styles.modal}
+        role="alertdialog"
+        aria-modal="true"
+        aria-labelledby="delete-modal-heading"
+        onClick={(e) => e.stopPropagation()}
+        onKeyDown={handleKeyDown}
+      >
+        <h3 id="delete-modal-heading" className={styles.modalHeading}>
+          Delete This Scope?
+        </h3>
+        <p className={styles.modalText}>
+          This permanently deletes the saved scope and its decision history.
+          This cannot be undone.
+        </p>
+        <div className={styles.modalActions}>
+          <button
+            ref={cancelRef}
+            type="button"
+            className={styles.modalCancel}
+            onClick={onCancel}
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            className={styles.modalDelete}
+            onClick={onDelete}
+            disabled={deleting}
+          >
+            {deleting ? "Deleting…" : "Delete Scope"}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 type Props = {
   id: string;
@@ -285,34 +371,12 @@ export function SavedScopeView({ id, title, type, data, updatedAt }: Props) {
         </Button>
       </div>
 
-      {/* Delete confirmation modal */}
       {confirmDelete && (
-        <div className={styles.modalOverlay} onClick={() => setConfirmDelete(false)}>
-          <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
-            <h3 className={styles.modalHeading}>Delete This Scope?</h3>
-            <p className={styles.modalText}>
-              This permanently deletes the saved scope and its decision history.
-              This cannot be undone.
-            </p>
-            <div className={styles.modalActions}>
-              <button
-                type="button"
-                className={styles.modalCancel}
-                onClick={() => setConfirmDelete(false)}
-              >
-                Cancel
-              </button>
-              <button
-                type="button"
-                className={styles.modalDelete}
-                onClick={handleDelete}
-                disabled={deleting}
-              >
-                {deleting ? "Deleting…" : "Delete Scope"}
-              </button>
-            </div>
-          </div>
-        </div>
+        <DeleteModal
+          deleting={deleting}
+          onCancel={() => setConfirmDelete(false)}
+          onDelete={handleDelete}
+        />
       )}
     </div>
   );

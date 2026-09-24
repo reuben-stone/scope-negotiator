@@ -17,7 +17,7 @@ export default async function WorkspaceLayout({
   return (
     <div className={styles.layout}>
       <WorkspaceSidebar />
-      <main className={styles.main}>{children}</main>
+      <main id="main-content" className={styles.main}>{children}</main>
     </div>
   );
 }

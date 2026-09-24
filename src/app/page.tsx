@@ -16,7 +16,7 @@ function LandingInner() {
   return (
     <div style={{ display: "flex", flexDirection: "column", minHeight: "100dvh" }}>
       <WorkflowHeader currentStage="context" onReset={handleReset} />
-      <main style={{ flex: 1, display: "flex", flexDirection: "column" }}>
+      <main id="main-content" style={{ flex: 1, display: "flex", flexDirection: "column" }}>
         <LandingPage />
       </main>
       <WorkflowFooter stage="context" />
