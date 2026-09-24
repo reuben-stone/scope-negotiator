@@ -3,14 +3,13 @@
 import {
   createContext,
   useContext,
-  useState,
-  useCallback,
   type ReactNode,
 } from "react";
+import { useSession, signIn as nextAuthSignIn, signOut as nextAuthSignOut } from "next-auth/react";
 
 type User = {
   id: string;
-  name: string;
+  name: string | null;
   email: string;
 };
 
@@ -23,25 +22,24 @@ type AuthContextValue = {
 
 const AuthContext = createContext<AuthContextValue | null>(null);
 
-/**
- * Stubbed auth provider. Replace with real auth (NextAuth/Clerk) later.
- * The interface remains the same.
- */
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
+  const { data: session } = useSession();
 
-  const signIn = useCallback(() => {
-    // Stub: in production, redirect to auth provider
-    setUser({
-      id: "user-1",
-      name: "Demo User",
-      email: "demo@scope-negotiator.dev",
-    });
-  }, []);
+  const user: User | null = session?.user
+    ? {
+        id: session.user.id ?? "",
+        name: session.user.name ?? null,
+        email: session.user.email ?? "",
+      }
+    : null;
 
-  const signOut = useCallback(() => {
-    setUser(null);
-  }, []);
+  const signIn = () => {
+    nextAuthSignIn(undefined, { callbackUrl: "/workspace" });
+  };
+
+  const signOut = () => {
+    nextAuthSignOut({ callbackUrl: "/" });
+  };
 
   return (
     <AuthContext.Provider

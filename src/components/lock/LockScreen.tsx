@@ -29,7 +29,7 @@ function filterCriteria(
 
 export function LockScreen() {
   const { state, reset, dispatch } = useWorkflow();
-  const { isAuthenticated, signIn } = useAuth();
+  const { isAuthenticated } = useAuth();
   const [copied, setCopied] = useState(false);
 
   const locked = state.lockedScope;
@@ -250,13 +250,9 @@ export function LockScreen() {
       {/* Bottom actions */}
       <div className={styles.actions}>
         {!isAuthenticated && (
-          <button
-            type="button"
-            className={styles.savePrompt}
-            onClick={signIn}
-          >
+          <a href="/login" className={styles.savePrompt}>
             Sign In to Save →
-          </button>
+          </a>
         )}
         {isAuthenticated && (
           <span className={styles.savedConfirm}>Saved to Workspace ✓</span>

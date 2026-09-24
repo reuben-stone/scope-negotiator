@@ -6,7 +6,7 @@ import { ContextFlow } from "@/components/context-flow/ContextFlow";
 import styles from "./ContextScreen.module.css";
 
 export function ContextScreen() {
-  const { isAuthenticated, signIn } = useAuth();
+  const { isAuthenticated } = useAuth();
   const [mode, setMode] = useState<WorkType | null>(null);
 
   useEffect(() => {
@@ -94,13 +94,9 @@ export function ContextScreen() {
             ) : (
               <span className={styles.authPrompt}>
                 Already have a workspace?{" "}
-                <button
-                  type="button"
-                  className={styles.authLink}
-                  onClick={signIn}
-                >
+                <a href="/login" className={styles.authLink}>
                   Sign In →
-                </button>
+                </a>
               </span>
             )}
           </div>
