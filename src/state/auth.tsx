@@ -16,6 +16,7 @@ type User = {
 type AuthContextValue = {
   user: User | null;
   isAuthenticated: boolean;
+  isLoading: boolean;
   signIn: () => void;
   signOut: () => void;
 };
@@ -23,7 +24,7 @@ type AuthContextValue = {
 const AuthContext = createContext<AuthContextValue | null>(null);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
 
   const user: User | null = session?.user
     ? {
@@ -46,6 +47,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       value={{
         user,
         isAuthenticated: !!user,
+        isLoading: status === "loading",
         signIn,
         signOut,
       }}

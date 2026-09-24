@@ -3,7 +3,7 @@
   max-width: var(--canvas-max);
   margin-inline: auto;
   padding-inline: var(--canvas-gutter);
-  min-height: calc(100dvh - 60px);
+  flex: 1;
   display: flex;
   flex-direction: column;
 }
@@ -131,6 +131,7 @@
   width: 100%;
   min-height: 110px;
   padding: 16px 24px 20px;
+  text-decoration: none;
   background: #fdf9f4;
   border: 2px solid var(--color-ink);
   border-radius: var(--radius);

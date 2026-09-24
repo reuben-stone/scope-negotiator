@@ -1,3 +1,4 @@
+import { useRouter } from "next/navigation";
 import type { ScopeItem, ScopeClassification } from "@/types/domain";
 import { useWorkflow } from "@/state/context";
 import { Button } from "@/components/shared/Button";
@@ -72,6 +73,7 @@ function ScopeCard({
 }
 
 export function NegotiateScreen() {
+  const router = useRouter();
   const { state, dispatch, moveScopeItem, lockScope } = useWorkflow();
   const items = state.proposal?.items ?? [];
 
@@ -84,7 +86,10 @@ export function NegotiateScreen() {
         <button
           type="button"
           className={styles.backLink}
-          onClick={() => dispatch({ type: "BACK_TO_CLARIFY" })}
+          onClick={() => {
+            dispatch({ type: "BACK_TO_CLARIFY" });
+            router.push("/scope/new/clarify");
+          }}
         >
           ← Back
         </button>
@@ -131,20 +136,14 @@ export function NegotiateScreen() {
       </div>
 
       <div className={styles.actions}>
-        <Button variant="primary" onClick={lockScope}>
+        <Button variant="primary" onClick={() => {
+          lockScope();
+          router.push("/scope/new/lock");
+        }}>
           Lock Scope →
         </Button>
       </div>
 
-      <div className={styles.footerOuter}>
-        <footer className={styles.footer}>
-          <span>
-            Scope Negotiator&ensp;|&ensp;Product Scoping
-            System&ensp;|&ensp;V1.0
-          </span>
-          <span>Negotiate&ensp;|&ensp;User Decision&ensp;|&ensp;04 / 05</span>
-        </footer>
-      </div>
     </div>
   );
 }

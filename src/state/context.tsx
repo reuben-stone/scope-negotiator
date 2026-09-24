@@ -78,18 +78,24 @@ type WorkflowContextValue = {
 
 const WorkflowContext = createContext<WorkflowContextValue | null>(null);
 
-function initState(): WorkflowState {
-  // SSR safety: sessionStorage not available on server
-  if (typeof window === "undefined") return initialWorkflowState;
-  return loadState() ?? initialWorkflowState;
-}
-
 export function WorkflowProvider({ children }: { children: ReactNode }) {
-  const [state, dispatch] = useReducer(workflowReducer, undefined, initState);
+  const [state, dispatch] = useReducer(workflowReducer, initialWorkflowState);
   const { isAuthenticated } = useAuth();
-  const savedScopeIdRef = useRef<string | null>(
-    typeof window !== "undefined" ? loadSavedScopeId() : null
-  );
+  const savedScopeIdRef = useRef<string | null>(null);
+  const hydrated = useRef(false);
+
+  // Hydrate from sessionStorage after mount (avoids SSR mismatch)
+  useEffect(() => {
+    if (hydrated.current) return;
+    hydrated.current = true;
+
+    const restored = loadState();
+    if (restored && restored.scopeContext) {
+      // Replay the state by dispatching a restore action
+      dispatch({ type: "RESTORE", state: restored });
+    }
+    savedScopeIdRef.current = loadSavedScopeId();
+  }, []);
 
   // Persist state on every change
   useEffect(() => {

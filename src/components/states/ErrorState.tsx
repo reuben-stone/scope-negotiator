@@ -24,15 +24,6 @@ export function ErrorState({
         )}
       </div>
 
-      <div className={styles.footerOuter}>
-        <footer className={styles.footer}>
-          <span>
-            Scope Negotiator&ensp;|&ensp;Product Scoping
-            System&ensp;|&ensp;V1.0
-          </span>
-          <span>Error</span>
-        </footer>
-      </div>
     </div>
   );
 }

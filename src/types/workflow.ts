@@ -49,7 +49,8 @@ export type WorkflowAction =
       to: ScopeClassification;
     }
   | { type: "LOCK_SCOPE" }
-  | { type: "RESET" };
+  | { type: "RESET" }
+  | { type: "RESTORE"; state: WorkflowState };
 
 export const initialWorkflowState: WorkflowState = {
   stage: "context",

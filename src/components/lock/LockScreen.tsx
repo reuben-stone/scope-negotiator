@@ -1,4 +1,5 @@
 import { useState, useCallback, useMemo } from "react";
+import { useRouter } from "next/navigation";
 import type { ScopeItem } from "@/types/domain";
 import { useWorkflow } from "@/state/context";
 import { useAuth } from "@/state/auth";
@@ -28,6 +29,7 @@ function filterCriteria(
 }
 
 export function LockScreen() {
+  const router = useRouter();
   const { state, reset, dispatch } = useWorkflow();
   const { isAuthenticated } = useAuth();
   const [copied, setCopied] = useState(false);
@@ -82,7 +84,10 @@ export function LockScreen() {
         <button
           type="button"
           className={styles.backLink}
-          onClick={() => dispatch({ type: "BACK_TO_NEGOTIATE" })}
+          onClick={() => {
+            dispatch({ type: "BACK_TO_NEGOTIATE" });
+            router.push("/scope/new/negotiate");
+          }}
         >
           ← Back to Negotiate
         </button>
@@ -254,7 +259,10 @@ export function LockScreen() {
           <span className={styles.savedConfirm}>Saved to Workspace ✓</span>
         )}
         <div className={styles.actionsRight}>
-          <Button variant="ghost" onClick={reset}>
+          <Button variant="ghost" onClick={() => {
+            reset();
+            router.push("/");
+          }}>
             New Scope
           </Button>
         <Button
@@ -281,16 +289,6 @@ export function LockScreen() {
         </div>
       </div>
 
-      {/* Footer */}
-      <div className={styles.footerOuter}>
-        <footer className={styles.footer}>
-          <span>
-            Scope Negotiator&ensp;|&ensp;Product Scoping
-            System&ensp;|&ensp;V1.0
-          </span>
-          <span>Lock&ensp;|&ensp;Scope Locked&ensp;|&ensp;05 / 05</span>
-        </footer>
-      </div>
     </div>
   );
 }

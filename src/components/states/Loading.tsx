@@ -56,15 +56,6 @@ export function Loading({
         <p className={styles.status}>{statuses[statusIndex]}</p>
       </div>
 
-      <div className={styles.footerOuter}>
-        <footer className={styles.footer}>
-          <span>
-            Scope Negotiator&ensp;|&ensp;Product Scoping
-            System&ensp;|&ensp;V1.0
-          </span>
-          <span>Processing</span>
-        </footer>
-      </div>
     </div>
   );
 }

@@ -268,19 +268,6 @@ export function ContextFlow({ mode, onChangeType }: Props) {
         </div>
       </div>
 
-      {/* Footer */}
-      <div className={styles.footerOuter}>
-        <footer className={styles.footer}>
-          <span>
-            Scope Negotiator&ensp;|&ensp;Product Scoping
-            System&ensp;|&ensp;V1.0
-          </span>
-          <span>
-            Context&ensp;|&ensp;User Input&ensp;|&ensp;
-            {String(stepIndex + 1).padStart(2, "0")} / {String(totalSteps).padStart(2, "0")}
-          </span>
-        </footer>
-      </div>
     </div>
   );
 }

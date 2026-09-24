@@ -116,6 +116,9 @@ export function workflowReducer(
         error: null,
       };
 
+    case "RESTORE":
+      return { ...action.state, loading: false, error: null };
+
     default:
       return state;
   }

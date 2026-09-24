@@ -55,6 +55,14 @@ export default function LoginPage() {
 
   return (
     <div className={styles.screen}>
+      <a href="/" className={styles.brandMark} aria-label="Scope Negotiator — back to start">
+        <img
+          src="/scope-negotiator-mark.png"
+          alt=""
+          style={{ height: 34, width: "auto", display: "block" }}
+          aria-hidden="true"
+        />
+      </a>
       <div className={styles.left}>
         <h1 className={styles.heading}>
           Your team shouldn&apos;t have to explain itself every time.

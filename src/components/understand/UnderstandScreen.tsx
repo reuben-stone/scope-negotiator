@@ -1,3 +1,4 @@
+import { useRouter } from "next/navigation";
 import type { InsightCategory, Insight } from "@/types/domain";
 import { useWorkflow } from "@/state/context";
 import { Button } from "@/components/shared/Button";
@@ -15,6 +16,7 @@ const CATEGORIES: {
 ];
 
 export function UnderstandScreen() {
+  const router = useRouter();
   const { state, dispatch } = useWorkflow();
   const insights = state.analysis?.insights ?? [];
 
@@ -25,6 +27,7 @@ export function UnderstandScreen() {
 
   function handleProceed() {
     dispatch({ type: "PROCEED_TO_CLARIFY" });
+    router.push("/scope/new/clarify");
   }
 
   return (
@@ -33,7 +36,10 @@ export function UnderstandScreen() {
         <button
           type="button"
           className={styles.backLink}
-          onClick={() => dispatch({ type: "BACK_TO_CONTEXT" })}
+          onClick={() => {
+            dispatch({ type: "BACK_TO_CONTEXT" });
+            router.push("/scope/new/context");
+          }}
         >
           ← Back
         </button>
@@ -85,15 +91,6 @@ export function UnderstandScreen() {
         </Button>
       </div>
 
-      <div className={styles.footerOuter}>
-        <footer className={styles.footer}>
-          <span>
-            Scope Negotiator&ensp;|&ensp;Product Scoping
-            System&ensp;|&ensp;V1.0
-          </span>
-          <span>Understand&ensp;|&ensp;Analysis&ensp;|&ensp;02 / 05</span>
-        </footer>
-      </div>
     </div>
   );
 }
