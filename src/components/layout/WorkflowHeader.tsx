@@ -65,8 +65,14 @@ export function WorkflowHeader({ currentStage, onReset }: Props) {
             type="button"
             className={styles.brand}
             onClick={onReset}
+            aria-label="Scope Negotiator — back to start"
           >
-            SCOPE NEGOTIATOR
+            <img
+              src="/scope-negotiator-mark.png"
+              alt=""
+              className={styles.brandMark}
+              aria-hidden="true"
+            />
           </button>
           <span className={styles.mobileCounter}>
             {String(currentIndex + 1).padStart(2, "0")} / {String(STAGES.length).padStart(2, "0")}

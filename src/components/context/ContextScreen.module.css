@@ -3,7 +3,7 @@
   max-width: var(--canvas-max);
   margin-inline: auto;
   padding-inline: var(--canvas-gutter);
-  min-height: calc(100dvh - 52px);
+  min-height: calc(100dvh - 60px);
   display: flex;
   flex-direction: column;
 }
@@ -15,7 +15,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding-bottom: 4vh;
+  padding-bottom: 2vh;
 }
 
 /* ── Hero ── */
