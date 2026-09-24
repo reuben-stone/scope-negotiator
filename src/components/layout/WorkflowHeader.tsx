@@ -26,8 +26,14 @@ export function WorkflowHeader({ currentStage, onReset }: Props) {
           type="button"
           className={styles.brand}
           onClick={onReset}
+          aria-label="Scope Negotiator — back to start"
         >
-          SCOPE NEGOTIATOR
+          <img
+            src="/scope-negotiator-mark.png"
+            alt=""
+            className={styles.brandMark}
+            aria-hidden="true"
+          />
         </button>
         <nav className={styles.stages} aria-label="Workflow progress">
           {STAGES.map((stage, i) => {
