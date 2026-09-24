@@ -16,19 +16,19 @@
 }
 
 .brand {
-  font-family: var(--font-display);
-  font-size: var(--text-sm);
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--color-ink);
-  text-decoration: none;
   display: block;
-  transition: color var(--motion-fast);
+  text-decoration: none;
+  transition: opacity var(--motion-fast);
 }
 
 .brand:hover {
-  color: var(--color-accent);
+  opacity: 0.7;
+}
+
+.brandMark {
+  height: 40px;
+  width: auto;
+  display: block;
 }
 
 

@@ -19,8 +19,13 @@ export function WorkspaceSidebar() {
   return (
     <aside className={styles.sidebar}>
       <div className={styles.header}>
-        <Link href="/" className={styles.brand}>
-          SCOPE NEGOTIATOR
+        <Link href="/" className={styles.brand} aria-label="Scope Negotiator — back to start">
+          <img
+            src="/scope-negotiator-mark.png"
+            alt=""
+            className={styles.brandMark}
+            aria-hidden="true"
+          />
         </Link>
         <p className={styles.workspaceLabel}>Workspace</p>
       </div>
