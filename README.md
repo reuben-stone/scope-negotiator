@@ -12,7 +12,9 @@
 </p>
 
 <p align="center">
-  <a href="https://scope-negotiator-ten.vercel.app/"><strong>Live Demo</strong></a>
+  <a href="https://scope-negotiator-ten.vercel.app/">
+    <img src="public/demo-button.png" alt="Open Live Demo" width="320" />
+  </a>
 </p>
 
 ---
