@@ -27,6 +27,7 @@ export const AnalysisResponseSchema = z.object({
 export type AnalysisResponse = z.infer<typeof AnalysisResponseSchema>;
 
 export const ProposalResponseSchema = z.object({
+  title: z.string().min(1).max(80),
   goal: z.string().min(1),
   items: z
     .array(

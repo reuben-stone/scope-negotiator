@@ -156,7 +156,7 @@ export function LockScreen() {
       </div>
 
       <div className={`${styles.content} stageTransition`}>
-        <h2 className={styles.heading}>Scope Locked</h2>
+        <h2 className={styles.heading}>{proposal.title || "Scope Locked"}</h2>
         <div className={styles.meta}>
           <span className={styles.metaBadge}>{shipped.length} Ship</span>
           <span className={styles.metaBadge}>{negotiated.length} Negotiate</span>

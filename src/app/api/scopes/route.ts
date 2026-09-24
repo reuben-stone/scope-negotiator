@@ -41,7 +41,7 @@ export async function POST(request: Request) {
   }
 
   const { id, type, data } = parsed.data;
-  const title = deriveTitle(data.context.brief);
+  const title = data.proposal.title || deriveTitle(data.context.brief);
   const goal = data.proposal.goal;
   const serialized = JSON.stringify(data);
 

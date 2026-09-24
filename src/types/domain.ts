@@ -50,6 +50,7 @@ export type ScopeAnalysis = {
 };
 
 export type ScopeProposal = {
+  title: string;
   goal: string;
   items: ScopeItem[];
   successCriteria: string[];

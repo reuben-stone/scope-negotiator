@@ -56,6 +56,7 @@ const AnalysisSchema = z.object({
 });
 
 const ProposalSchema = z.object({
+  title: z.string().optional(),
   goal: z.string(),
   items: z.array(ScopeItemSchema),
   successCriteria: z.array(z.string()),

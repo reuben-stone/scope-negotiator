@@ -39,6 +39,7 @@ export async function POST(request: Request) {
     analysis: parsed.data.analysis,
     proposal: {
       ...parsed.data.proposal,
+      title: parsed.data.proposal.title ?? "",
       items: parsed.data.proposal.items.map((item) => ({
         ...item,
         rationale: item.rationale ?? "",

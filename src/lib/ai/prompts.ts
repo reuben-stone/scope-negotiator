@@ -60,6 +60,7 @@ You will receive:
 Human clarification answers are authoritative and should directly influence the resulting scope proposal.
 
 Propose a scope breakdown with:
+- A concise title (3-7 words) that describes the final scoped outcome based on what is being shipped, not what was originally requested. Use normal product/engineering terminology. Do not use marketing language, vague labels, or simply copy the user's raw input. The title should be meaningful when viewed without the original brief.
 - A concise goal statement
 - Scope items, each classified as ship (should be in v1), negotiate (valuable but debatable for v1), or cut (defer or remove)
 - Success criteria for the agreed scope

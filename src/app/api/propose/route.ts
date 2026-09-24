@@ -47,6 +47,7 @@ export async function POST(request: Request) {
 
     // Add application-owned fields
     const proposal: ScopeProposal = {
+      title: result.title,
       goal: result.goal,
       items: result.items.map((item, i) => ({
         id: `item-${i + 1}`,

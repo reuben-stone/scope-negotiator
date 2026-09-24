@@ -142,7 +142,7 @@ export function SavedScopeView({ id, title, type, data, updatedAt }: Props) {
 
   const handleCopy = useCallback(async () => {
     try {
-      const locked = { context, analysis, proposal, lockedAt: data.lockedAt };
+      const locked = { context, analysis, proposal: { ...proposal, title: proposal.title ?? "" }, lockedAt: data.lockedAt };
       const md = generateMarkdown(locked, filteredCriteria);
       await navigator.clipboard.writeText(md);
       setCopied(true);

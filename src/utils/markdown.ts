@@ -49,7 +49,7 @@ export function generateMarkdown(
   const criteria = filteredCriteria ?? proposal.successCriteria;
 
   const sections: string[] = [
-    `# Scope Locked`,
+    `# ${proposal.title || "Scope Locked"}`,
     `${shipped.length} ship · ${negotiated.length} negotiate · ${cut.length} cut${overrides.length > 0 ? ` · ${overrides.length} override${overrides.length !== 1 ? "s" : ""}` : ""}`,
   ];
 
