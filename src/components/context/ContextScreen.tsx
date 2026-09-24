@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type { WorkType } from "@/types/domain";
 import { ScopeNegotiatorMark } from "@/components/shared/ScopeNegotiatorMark";
 import { ContextFlow } from "@/components/context-flow/ContextFlow";
@@ -6,6 +6,10 @@ import styles from "./ContextScreen.module.css";
 
 export function ContextScreen() {
   const [mode, setMode] = useState<WorkType | null>(null);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [mode]);
 
   if (mode) {
     return (

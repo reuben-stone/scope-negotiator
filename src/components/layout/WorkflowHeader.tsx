@@ -20,7 +20,8 @@ export function WorkflowHeader({ currentStage, onReset }: Props) {
 
   return (
     <header className={styles.header} role="banner">
-      <div className={styles.headerInner}>
+      {/* Desktop layout */}
+      <div className={styles.desktopInner}>
         <button
           type="button"
           className={styles.brand}
@@ -49,6 +50,39 @@ export function WorkflowHeader({ currentStage, onReset }: Props) {
             );
           })}
         </nav>
+      </div>
+
+      {/* Mobile layout */}
+      <div className={styles.mobileInner}>
+        <div className={styles.mobileRow}>
+          <button
+            type="button"
+            className={styles.brand}
+            onClick={onReset}
+          >
+            SCOPE NEGOTIATOR<span className={styles.reg}>&reg;</span>
+          </button>
+          <span className={styles.mobileCounter}>
+            {String(currentIndex + 1).padStart(2, "0")} / {String(STAGES.length).padStart(2, "0")}
+          </span>
+        </div>
+        <div className={styles.mobileRow}>
+          <span
+            className={styles.mobileStage}
+            role="status"
+            aria-label={`Step ${currentIndex + 1} of ${STAGES.length}: ${STAGE_LABELS[currentStage]}`}
+          >
+            {String(currentIndex + 1).padStart(2, "0")} {STAGE_LABELS[currentStage]}
+          </span>
+          <div className={styles.progressBlocks} aria-hidden="true">
+            {STAGES.map((stage, i) => (
+              <span
+                key={stage}
+                className={`${styles.progressBlock} ${i < currentIndex ? styles.progressDone : ""} ${i === currentIndex ? styles.progressCurrent : ""}`}
+              />
+            ))}
+          </div>
+        </div>
       </div>
     </header>
   );

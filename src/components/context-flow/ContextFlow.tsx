@@ -223,6 +223,9 @@ export function ContextFlow({ mode, onChangeType }: Props) {
             </span>
           ))}
         </nav>
+        <span className={styles.localStepsMobile}>
+          {String(stepIndex + 1).padStart(2, "0")} / {String(totalSteps).padStart(2, "0")}
+        </span>
       </div>
 
       {/* Two-column workspace */}
