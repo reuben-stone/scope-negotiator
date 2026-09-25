@@ -23,7 +23,7 @@
 
 ## The problem
 
-Ambitious feature requests and product ideas routinely contain hidden assumptions, unresolved questions and scope that does not match the team or time available.
+Ambiguous or ambitious feature requests and product ideas routinely contain hidden assumptions, unresolved questions and scope that does not match the team or time available.
 
 The usual response is either a confident-sounding specification built on guesswork, or an open-ended planning process that never converges.
 
@@ -121,13 +121,13 @@ The provider adapter (`src/lib/ai/provider.ts`) uses Anthropic's tool use with f
 
 The interface changes density to match the cognitive task:
 
-| Stage | Density | Rationale |
-|-------|---------|-----------|
-| Context | Spacious | Thinking and composing |
-| Understand | Structured | Reading and absorbing |
-| Clarify | Focused | Answering specific questions |
-| Negotiate | Dense | Comparing and deciding |
-| Lock | Authoritative | Reviewing a decision |
+| Stage      | Density       | Rationale                    |
+| ---------- | ------------- | ---------------------------- |
+| Context    | Spacious      | Thinking and composing       |
+| Understand | Structured    | Reading and absorbing        |
+| Clarify    | Focused       | Answering specific questions |
+| Negotiate  | Dense         | Comparing and deciding       |
+| Lock       | Authoritative | Reviewing a decision         |
 
 Motion is minimal and purposeful. Transitions confirm state changes rather than announcing that elements exist. Physical controls use hard-shadow press states. `prefers-reduced-motion` is respected globally.
 
